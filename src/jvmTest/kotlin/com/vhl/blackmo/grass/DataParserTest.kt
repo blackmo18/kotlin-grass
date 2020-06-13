@@ -1,5 +1,8 @@
 package com.vhl.blackmo.grass
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.vhl.blackmo.grass.data.DateAndTime
+import com.vhl.blackmo.grass.data.DateTime
+import com.vhl.blackmo.grass.data.PrimitiveTypes
 import com.vhl.blackmo.grass.dsl.grass
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -9,7 +12,6 @@ import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 /**
@@ -23,19 +25,20 @@ class DataParserTest: WordSpec() {
     init {
         "test parse" should {
             "parse to primitive data type" {
-                data class Grass(
-                        val short: Short,
-                        val int: Int,
-                        val long: Long,
-                        val float: Float,
-                        val double: Double,
-                        val boolean: Boolean,
-                        val string: String
-                )
-
-                val expected = Grass(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val expected =
+                    PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
                 val contents = readTestFile("/primitive.csv").asSequence()
-                val parsed = grass<Grass>().harvest(contents)
+                val parsed = grass<PrimitiveTypes>().harvest(contents)
+                val actual = parsed.first()
+
+                assertTrue { expected == actual }
+            }
+
+            "parse data ast list" {
+                val expected =
+                    PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val contents = readTestFile("/primitive.csv")
+                val parsed = grass<PrimitiveTypes>().harvest(contents)
                 val actual = parsed.first()
 
                 assertTrue { expected == actual }
@@ -44,15 +47,9 @@ class DataParserTest: WordSpec() {
 
         "parse java date and time" should {
             "parse default time and date format" {
-                data class DateAndTime(
-                    val date: LocalDate,
-                    val datetime: LocalDateTime,
-                    val time: LocalTime
-                )
                 val date = LocalDate.of(2020, 12, 1)
                 val dateTime = LocalDateTime.of(2020, 12, 1, 12, 0)
                 val time = LocalTime.of(11, 12)
-
                 val expected = DateAndTime(date,dateTime,time)
                 val contents = readTestFile("date-and-time.csv").asSequence()
                 val actual = grass<DateAndTime>().harvest(contents).first()
@@ -64,16 +61,12 @@ class DataParserTest: WordSpec() {
             }
 
             "parse custom date, time, and separator format" {
-                data class DateAndTime(
-                    val datetime: LocalDateTime,
-                    val time: LocalTime
-                )
                 val datetime = LocalDateTime.of(2020, 12, 1, 11, 12, 13)
                 val time = LocalTime.of(11, 12,13)
 
-                val expected = DateAndTime(datetime,time)
+                val expected = DateTime(datetime,time)
                 val contents = readTestFile("date-time-and-seconds.csv").asSequence()
-                val actual = grass<DateAndTime>{
+                val actual = grass<DateTime>{
                     dateFormat = "MM-dd-yyyy"
                     timeFormat = "HH:mm:ss"
                     dateTimeSeparator = "/"
@@ -88,19 +81,10 @@ class DataParserTest: WordSpec() {
 
         "custom key value" should {
             "able to map custom key" {
-                data class Grass(
-                    val short: Short,
-                    val int: Int,
-                    val longX: Long,
-                    val floatX: Float,
-                    val double: Double,
-                    val boolean: Boolean,
-                    val string: String
-                )
 
-                val expected = Grass(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val expected = PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
                 val contents = readTestFile("/primitive.csv").asSequence()
-                val parsed = grass<Grass>{
+                val parsed = grass<PrimitiveTypes>{
                     customKeyMap = mapOf("long" to "longX", "float" to "floatX")
                 }.harvest(contents)
                 val actual = parsed.first()
