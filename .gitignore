@@ -1,0 +1,16 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+gradle.properties
+
+# Ignore Gradle build output directory
+build
+out
+
+# Ignore kotlintest tmp file
+.kotlintest
+test.csv
+
+# Project definition file
+*.iml
+.idea/*
