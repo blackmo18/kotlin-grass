@@ -4,6 +4,9 @@
   <a href="https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE">
     <img alt="License: Apache License 2.0" src="https://img.shields.io/badge/License-Apache License 2.0-yellow.svg" target="_blank" />
   </a>
+  <a href="https://github.com/blackmo18/kotlin-grass/workflows/build/badge.svg?branch=master">
+    <img src="https://github.com/blackmo18/kotlin-grass/workflows/build/badge.svg?branch=master" alt="CodeFactor" />
+  </a>
   <a href="https://www.codefactor.io/repository/github/blackmo18/kotlin-grass">
     <img src="https://www.codefactor.io/repository/github/blackmo18/kotlin-grass/badge" alt="CodeFactor" />
   </a>
