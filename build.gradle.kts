@@ -1,16 +1,26 @@
+import com.jfrog.bintray.gradle.BintrayExtension
+
 plugins {
     kotlin("multiplatform") version "1.3.72"
+    id("com.jfrog.bintray") version "1.8.5"
+    id("maven-publish")
+    id("org.jetbrains.dokka").version("0.9.18")
+    java
+    jacoco
 }
 
 val kotlin_version = "1.3.72"
 val csv_version = "0.10.4"
 
-group = "org.blackmo"
-version = "0.0.1"
-
 repositories {
-    mavenCentral()
+    jcenter()
 }
+
+val dokkaJar = task<Jar>("dokkaJar") {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    archiveClassifier.set("javadoc")
+}
+
 
 kotlin {
     jvm {
@@ -19,6 +29,9 @@ kotlin {
                 jvmTarget = "1.8"
                 noReflect = false
             }
+        }
+        mavenPublication {
+            artifact(dokkaJar)
         }
     }
 
@@ -54,4 +67,29 @@ kotlin {
 
 val jvmTest by tasks.getting(Test::class) {
     useJUnitPlatform { }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+tasks.jacocoTestReport {
+    val coverageSourceDirs = arrayOf(
+            "commonMain/src",
+            "jvmMain/src"
+    )
+    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
+            .walkBottomUp()
+            .toSet()
+    classDirectories.setFrom(classFiles)
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+    additionalSourceDirs.setFrom(files(coverageSourceDirs))
+
+    executionData
+            .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = false
+    }
 }
