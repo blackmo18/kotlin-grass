@@ -1,16 +1,21 @@
+import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import com.jfrog.bintray.gradle.BintrayExtension
+import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
 
 plugins {
     kotlin("multiplatform") version "1.3.72"
-    id("com.jfrog.bintray") version "1.8.5"
     id("maven-publish")
     id("org.jetbrains.dokka").version("0.9.18")
-    java
+    id("com.jfrog.bintray") version "1.8.5"
+    id("java-library")
     jacoco
 }
 
 val kotlin_version = "1.3.72"
 val csv_version = "0.10.4"
+
+group = "com.vhl.blackmo"
+version = "0.0.1"
 
 repositories {
     jcenter()
@@ -20,7 +25,19 @@ val dokkaJar = task<Jar>("dokkaJar") {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
     archiveClassifier.set("javadoc")
 }
+val sourceJar = task<Jar>("sourceJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.getByName("main").allSource)
+}
+val metadata = task<Jar>("metadata") {
+    archiveClassifier.set("metadata")
+    from(sourceSets.getByName("main").allSource)
+}
 
+val jvm = task<Jar>("jvm") {
+    archiveClassifier.set("jvm")
+    from(sourceSets.getByName("main").allSource)
+}
 
 kotlin {
     jvm {
@@ -29,9 +46,6 @@ kotlin {
                 jvmTarget = "1.8"
                 noReflect = false
             }
-        }
-        mavenPublication {
-            artifact(dokkaJar)
         }
     }
 
@@ -49,8 +63,7 @@ kotlin {
         }
         jvm().compilations["main"].defaultSourceSet {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-                implementation("io.github.microutils:kotlin-logging:1.7.9")
+                implementation(kotlin("stdlib-common"))
             }
         }
         jvm().compilations["test"].defaultSourceSet {
@@ -60,6 +73,21 @@ kotlin {
                 implementation(kotlin("test-junit"))
                 implementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
                 implementation("com.github.doyaaaaaken:kotlin-csv-jvm:$csv_version")
+            }
+        }
+    }
+}
+
+val bintrayUser = (project.findProperty("bintray.user") ?: "").toString()
+val bintrayKey = (project.findProperty("bintray.apikey")?: "").toString()
+
+publishing {
+    repositories {
+        maven(url = "https://api.bintray.com/maven/blackmo18/kotlin-libraries/kotlin-grass/;publish=1") {
+            name = "bintray"
+            credentials {
+                username = bintrayUser
+                password = bintrayKey
             }
         }
     }
