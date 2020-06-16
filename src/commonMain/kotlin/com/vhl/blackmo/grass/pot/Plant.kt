@@ -1,6 +1,7 @@
 package com.vhl.blackmo.grass.pot
 
 import com.vhl.blackmo.grass.context.GrassParserContext
+import com.vhl.blackmo.grass.stem.DateTimeTypes
 import kotlin.reflect.KClass
 
 /**
@@ -9,6 +10,7 @@ import kotlin.reflect.KClass
 @ExperimentalStdlibApi
  expect  class Plant<T> actual constructor(ctx: GrassParserContext, type: KClass<*>):
     Root<T> {
+    val dateTimeTypes : DateTimeTypes
     fun harvest(seed: List<Map<String, String>>): List<T>
     fun harvest(seed: Sequence<Map<String, String>>): Sequence<T>
 }
