@@ -59,8 +59,7 @@ class DataParserTest: WordSpec() {
 
             "parse nullable data class" {
                 val expected0 = NullableDataTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
-                val expected1 =
-                        NullableDataTypes(5, 6, 7, 8.0f, 9.0, true, "hi")
+                val expected1 = NullableDataTypes(5, 6, 7, 8.0f, 9.0, true, "hi")
                 val contents = readTestFile("/primitive.csv")
                 val parsed = grass<NullableDataTypes>().harvest(contents)
 
@@ -113,7 +112,6 @@ class DataParserTest: WordSpec() {
 
         "custom key value" should {
             "able to map custom key" {
-
                 val expected = PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
                 val contents = readTestFile("/primitive.csv").asSequence()
                 val parsed = grass<PrimitiveTypes>{
