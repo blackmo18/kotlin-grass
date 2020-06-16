@@ -2,6 +2,7 @@ package com.vhl.blackmo.grass
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.vhl.blackmo.grass.data.DateAndTime
 import com.vhl.blackmo.grass.data.DateTime
+import com.vhl.blackmo.grass.data.NullableDataTypes
 import com.vhl.blackmo.grass.data.PrimitiveTypes
 import com.vhl.blackmo.grass.dsl.grass
 import io.kotlintest.TestCase
@@ -23,7 +24,7 @@ class DataParserTest: WordSpec() {
         super.afterTest(testCase, result)
     }
     init {
-        "test parse" should {
+        "Parse into Data Class" should {
             "parse to primitive data type" {
                 val expected =
                     PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
@@ -34,7 +35,7 @@ class DataParserTest: WordSpec() {
                 assertTrue { expected == actual }
             }
 
-            "parse data ast list" {
+            "parse data as list" {
                 val expected =
                     PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
                 val contents = readTestFile("/primitive.csv")
@@ -43,7 +44,38 @@ class DataParserTest: WordSpec() {
 
                 assertTrue { expected == actual }
             }
+
+            "parse multiple rows" {
+                val expected0 =
+                    PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val expected1 =
+                    PrimitiveTypes(5, 6, 7, 8.0f, 9.0, true, "hi")
+                val contents = readTestFile("/primitive.csv")
+                val parsed = grass<PrimitiveTypes>().harvest(contents)
+
+                assertTrue { expected0 == parsed[0] }
+                assertTrue { expected1 == parsed[1] }
+            }
+
+            "parse nullable data class" {
+                val expected0 = NullableDataTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val expected1 =
+                        NullableDataTypes(5, 6, 7, 8.0f, 9.0, true, "hi")
+                val contents = readTestFile("/primitive.csv")
+                val parsed = grass<NullableDataTypes>().harvest(contents)
+
+                assertTrue { expected0 == parsed[0] }
+                assertTrue { expected1 == parsed[1] }
+            }
+            "parse null values" {
+                val expected0 = NullableDataTypes(null, null, null, null, null, null, null)
+                val contents = readTestFile("/primitive-empty.csv")
+                val parsed = grass<NullableDataTypes>().harvest(contents)
+
+                assertTrue { expected0 == parsed.first() }
+            }
         }
+
 
         "parse java date and time" should {
             "parse default time and date format" {

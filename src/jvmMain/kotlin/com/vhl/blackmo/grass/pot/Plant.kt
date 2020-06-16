@@ -25,6 +25,13 @@ actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KCla
         else -> super.getType(type, value)
     }
 
+    override fun typeNullable(type: KType, value: String): Any = when(type) {
+        typeOf<LocalTime?>() -> formatTime(value)
+        typeOf<LocalDateTime?>() -> formatDateTime(value)
+        typeOf<LocalDate?>() -> formatDate(value)
+        else -> super.typeNullable(type, value)
+    }
+
     actual fun harvest(seed: List<Map<String, String>>): List<T> {
         return harvestData(seed)
     }
