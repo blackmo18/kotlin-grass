@@ -2,6 +2,7 @@ package com.vhl.blackmo.grass.pot
 
 import com.vhl.blackmo.grass.errors.MissMatchedNumberOfFieldsException
 import com.vhl.blackmo.grass.errors.MissMatchedFieldNameException
+import com.vhl.blackmo.grass.stem.PrimitiveType
 import kotlin.reflect.*
 
 /**
@@ -11,16 +12,32 @@ import kotlin.reflect.*
 @ExperimentalStdlibApi
 abstract class Root<out T>(
     private val type: KClass<*>,
-    private val customKeyMap: Map<String, String>?
+    private val receivedKeyMap: Map<String, String>?
 ) {
 
+    private val paramNTypes = mutableMapOf<String?, (value: String) -> Any >()
+    private val paramNIndex = mutableMapOf<String?, Int >()
+    private val paramNames = mutableListOf<String?>()
     private val processedKey = mutableSetOf<String>()
+    private val customKeyMap = mutableMapOf<String,String>()
+
+    private fun initOnMethod() {
+        type.constructors.first().parameters.forEach {
+            paramNTypes[it.name] = getType(it.type)
+            paramNIndex[it.name] = it.index
+            paramNames.add(it.name)
+            receivedKeyMap?.let {
+                customKeyMap.putAll(it)
+            }
+        }
+    }
 
     fun harvestData(rows: Sequence<Map<String, String>>): Sequence<T> {
+        initOnMethod()
+        val constructor = type.constructors.first()
         return sequence {
             rows.forEach { entry ->
-                val constructor = type.constructors.first()
-                val params = createObject(constructor, entry)
+                val params = createObject(entry)
                 val obj = constructor.call(*params)
                 yield(obj as T)
             }
@@ -28,46 +45,49 @@ abstract class Root<out T>(
     }
 
     fun harvestData(rows: List<Map<String, String>>): List<T> {
+        initOnMethod()
+        val constructor = type.constructors.first()
         val listObject = mutableListOf<T>()
         rows.forEach { entry ->
-            val constructor = type.constructors.first()
-            val params = createObject(constructor, entry)
+            val params = createObject(entry)
             val obj = constructor.call(*params)
             listObject.add(obj as T)
         }
         return listObject
     }
 
-    private fun createObject(constructor: KFunction<*>, row: Map<String, String>): Array<Any> {
-        val paramSize =  constructor.parameters.size
-        val actualParams = Array<Any>(paramSize) {}
+    private fun createObject( row: Map<String, String>): Array<Any?> {
 
-        validateNumberOfFields(row.keys.size, paramSize)
-        row.forEach { keyValue ->
-            val kParams = constructor.parameters
-            assignValueToField(actualParams, kParams, keyValue.key to keyValue.value)
-        }
-        return actualParams
-    }
+        val actualParams = Array<Any?>(paramNTypes.size){}
+        validateNumberOfFields(row.keys.size, paramNTypes.size)
 
-    private fun assignValueToField(actualParams: Array<Any>, kParams: List<KParameter>, pair: Pair<String, String>) {
-        val  field = kParams.findLast { it.name == pair.first }
-        when {
-            field!=null -> actualParams[field.index] = getType(field.type, pair.second)
-            customKeyMap != null -> {
-                if (customKeyMap.isNotEmpty()) {
-                    if (customKeyMap.containsKey(pair.first) && !processedKey.contains(pair.first)) {
-                        processedKey.add(pair.first)
-                        assignValueToField(actualParams, kParams,  (customKeyMap[pair.first] ?: error("Null key value pair")) to pair.second)
-                    } else {
-                        throw MissMatchedFieldNameException(pair.first)
+        loop@ for (mapRow in row) {
+            when {
+                paramNTypes.containsKey(mapRow.key) && mapRow.value.isNotBlank() -> {
+                    val index = paramNIndex[mapRow.key]!!
+                    actualParams[index] = paramNTypes[mapRow.key]!!.invoke(mapRow.value)
+                }
+                paramNTypes.containsKey(mapRow.key) && mapRow.value.isBlank() -> {
+                    val index = paramNIndex[mapRow.key]!!
+                    actualParams[index] = null
+                }
+                else -> {
+                    if (customKeyMap.isNotEmpty()) {
+                        if (customKeyMap.containsValue(mapRow.key)) {
+                            val mappedKey = customKeyMap[mapRow.key] ?: throw error("")
+                            if(paramNTypes.containsKey(mappedKey)) {
+                                customKeyMap.remove(mappedKey)
+                                val index = paramNIndex[mapRow.key]!!
+                                actualParams[index] = paramNTypes[mapRow.key]!!.invoke(mapRow.value)
+                                continue@loop
+                            }
+                        }
                     }
-                } else {
-                    throw MissMatchedFieldNameException(pair.first)
+                    throw MissMatchedFieldNameException(mapRow.key)
                 }
             }
-            else ->  throw MissMatchedFieldNameException(pair.first)
         }
+        return actualParams
     }
 
     private fun validateNumberOfFields(csvLength: Int, dataClassFieldLength: Int) {
@@ -76,13 +96,25 @@ abstract class Root<out T>(
         }
     }
 
-    open fun getType(type: KType, value: String): Any = when(type) {
-        typeOf<Short>() -> value.toShort()
-        typeOf<Int>() -> value.toInt()
-        typeOf<Long>() -> value.toLong()
-        typeOf<Float>() -> value.toFloat()
-        typeOf<Double>() -> value.toDouble()
-        typeOf<Boolean>() -> value.toBoolean()
-        else -> value
+    open fun getType(type: KType)  = when(type) {
+        typeOf<Short>() -> PrimitiveType.toShort
+        typeOf<Int>() -> PrimitiveType.toInt
+        typeOf<Long>() -> PrimitiveType.toLong
+        typeOf<Float>() -> PrimitiveType.toFloat
+        typeOf<Double>() -> PrimitiveType.toDouble
+        typeOf<String>() -> PrimitiveType.string
+        typeOf<Boolean>() -> PrimitiveType.toBoolean
+        else -> typeNullable(type)
+    }
+
+
+    open fun typeNullable(type: KType)  = when(type) {
+        typeOf<Short?>() -> PrimitiveType.toShort
+        typeOf<Int?>() -> PrimitiveType.toInt
+        typeOf<Long?>() -> PrimitiveType.toLong
+        typeOf<Float?>() -> PrimitiveType.toFloat
+        typeOf<Double?>() -> PrimitiveType.toDouble
+        typeOf<Boolean?>() -> PrimitiveType.toBoolean
+        else -> PrimitiveType.string
     }
 }
