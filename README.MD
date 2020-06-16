@@ -44,11 +44,7 @@
 # Usage
 #### Gradle DSL:
 ```
-repositories {
-    maven("https://dl.bintray.com/blackmo18/kotlin-libraries/")
-}
-
-implementation("com.vhl.blackmo:kotlin-grass-jvm:0.0.1")
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.1.0")
 ```
 
 
