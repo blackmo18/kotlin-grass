@@ -1,6 +1,8 @@
 <h1 align="center">kotlin-grass</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
+  <a href='https://bintray.com/blackmo18/kotlin-libraries/kotlin-grass/_latestVersion'>
+    <img src='https://api.bintray.com/packages/blackmo18/kotlin-libraries/kotlin-grass/images/download.svg'>
+    </a>
   <a href="https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE">
     <img alt="License: Apache License 2.0" src="https://img.shields.io/badge/License-Apache License 2.0-yellow.svg" target="_blank" />
   </a>
@@ -42,12 +44,11 @@
 # Usage
 #### Gradle DSL:
 ```
-//todo to be publish
-//gradle kotlin DSL
-implementation("com.vhl.blackmo:kotlin-grass:0.0.1")
+repositories {
+    maven("https://dl.bintray.com/blackmo18/kotlin-libraries/")
+}
 
-//gradle groovy DSL
-implementation 'com.vhl.blackmo:kotlin-grass:0.0.1'
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.0.1")
 ```
 
 
