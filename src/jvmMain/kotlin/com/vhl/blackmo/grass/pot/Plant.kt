@@ -17,21 +17,12 @@ actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KCla
 
     actual val dateTimeTypes = DateTimeTypes(ctx.dateFormat, ctx.timeFormat, ctx.dateTimeSeparator)
 
-    override fun getType(type: KType): (String)-> Any = when(type) {
-        typeOf<LocalDate>() ->   dateTimeTypes.formatDate
-        typeOf<LocalDateTime>() ->  dateTimeTypes.formatDateTime
-        typeOf<LocalTime>() ->  dateTimeTypes.formatTime
+    override fun getType(type: KType) = when {
+        dateTimeTypes.mapTypes.containsKey(type) -> dateTimeTypes.mapTypes[type]
         else -> super.getType(type)
     }
 
-    override fun typeNullable(type: KType) = when(type) {
-        typeOf<LocalDate?>() ->   dateTimeTypes.formatDate
-        typeOf<LocalDateTime?>() ->  dateTimeTypes.formatDateTime
-        typeOf<LocalTime?>() ->  dateTimeTypes.formatTime
-        else -> super.typeNullable(type)
-    }
-
-    actual fun harvest(seed: List<Map<String, String>>): List<T> {
+actual fun harvest(seed: List<Map<String, String>>): List<T> {
         return harvestData(seed)
     }
 
