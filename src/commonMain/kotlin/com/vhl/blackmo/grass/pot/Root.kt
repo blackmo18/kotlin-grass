@@ -64,7 +64,7 @@ abstract class Root<out T>(
         loop@ for (mapRow in row) {
             val hasKey = paramNTypes.containsKey(mapRow.key)
             when {
-                 hasKey && mapRow.value.isNotBlank() -> {
+                hasKey && mapRow.value.isNotBlank() -> {
                     val index = paramNIndex[mapRow.key]!!
                     actualParams[index] = paramNTypes[mapRow.key]!!.invoke(mapRow.value)
                 }
