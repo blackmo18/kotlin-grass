@@ -1,5 +1,7 @@
 package com.vhl.blackmo.grass.stem
 
+import kotlin.reflect.KType
+
 /**
  * Class that defines formatting functions for Java8 Date Time Apis
  * @author blackmo18
@@ -10,4 +12,6 @@ expect class DateTimeTypes(dateFormat: String, timeFormat: String, dateTimeSepar
     val formatDate: (String) -> Any
     val formatDateTime: (String) -> Any
     val formatTime: (String) -> Any
+
+    val mapTypes: Map<KType, (String) -> Any>
 }
