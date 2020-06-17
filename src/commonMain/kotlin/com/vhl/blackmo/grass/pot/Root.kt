@@ -15,7 +15,7 @@ abstract class Root<out T>(
     private val receivedKeyMap: Map<String, String>?
 ) {
 
-    private val paramNTypes = mutableMapOf<String?, (value: String) -> Any >()
+    private val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
     private val paramNIndex = mutableMapOf<String?, Int >()
     private val paramNames = mutableListOf<String?>()
     private val processedKey = mutableSetOf<String>()
@@ -62,19 +62,20 @@ abstract class Root<out T>(
         validateNumberOfFields(row.keys.size, paramNTypes.size)
 
         loop@ for (mapRow in row) {
+            val hasKey = paramNTypes.containsKey(mapRow.key)
             when {
-                paramNTypes.containsKey(mapRow.key) && mapRow.value.isNotBlank() -> {
+                 hasKey && mapRow.value.isNotBlank() -> {
                     val index = paramNIndex[mapRow.key]!!
                     actualParams[index] = paramNTypes[mapRow.key]!!.invoke(mapRow.value)
                 }
-                paramNTypes.containsKey(mapRow.key) && mapRow.value.isBlank() -> {
+                hasKey && mapRow.value.isBlank() -> {
                     val index = paramNIndex[mapRow.key]!!
                     actualParams[index] = null
                 }
                 else -> {
                     if (customKeyMap.isNotEmpty()) {
                         if (customKeyMap.containsValue(mapRow.key)) {
-                            val mappedKey = customKeyMap[mapRow.key] ?: throw error("")
+                            val mappedKey = customKeyMap[mapRow.key]
                             if(paramNTypes.containsKey(mappedKey)) {
                                 customKeyMap.remove(mappedKey)
                                 val index = paramNIndex[mapRow.key]!!
@@ -96,25 +97,5 @@ abstract class Root<out T>(
         }
     }
 
-    open fun getType(type: KType)  = when(type) {
-        typeOf<Short>() -> PrimitiveType.toShort
-        typeOf<Int>() -> PrimitiveType.toInt
-        typeOf<Long>() -> PrimitiveType.toLong
-        typeOf<Float>() -> PrimitiveType.toFloat
-        typeOf<Double>() -> PrimitiveType.toDouble
-        typeOf<String>() -> PrimitiveType.string
-        typeOf<Boolean>() -> PrimitiveType.toBoolean
-        else -> typeNullable(type)
-    }
-
-
-    open fun typeNullable(type: KType)  = when(type) {
-        typeOf<Short?>() -> PrimitiveType.toShort
-        typeOf<Int?>() -> PrimitiveType.toInt
-        typeOf<Long?>() -> PrimitiveType.toLong
-        typeOf<Float?>() -> PrimitiveType.toFloat
-        typeOf<Double?>() -> PrimitiveType.toDouble
-        typeOf<Boolean?>() -> PrimitiveType.toBoolean
-        else -> PrimitiveType.string
-    }
+    open fun getType(type: KType)  = PrimitiveType.mapTypes[type]
 }
