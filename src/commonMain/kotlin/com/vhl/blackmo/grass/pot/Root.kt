@@ -2,7 +2,7 @@ package com.vhl.blackmo.grass.pot
 
 import com.vhl.blackmo.grass.errors.MissMatchedNumberOfFieldsException
 import com.vhl.blackmo.grass.errors.MissMatchedFieldNameException
-import com.vhl.blackmo.grass.stem.PrimitiveType
+import com.vhl.blackmo.grass.vien.PrimitiveType
 import kotlin.reflect.*
 
 /**

@@ -6,7 +6,6 @@ name: not-master
 on:
   push:
     branches:
-      - '*'
       - '!master'
 
 jobs:

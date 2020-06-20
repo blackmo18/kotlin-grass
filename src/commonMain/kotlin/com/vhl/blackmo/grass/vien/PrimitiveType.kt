@@ -1,21 +1,21 @@
-package com.vhl.blackmo.grass.stem
+package com.vhl.blackmo.grass.vien
 
 import kotlin.reflect.typeOf
 
 /**
  *
- * @author balckmo18
+ * @author blackmo18
  */
 internal class PrimitiveType {
     @ExperimentalStdlibApi
     companion object {
-        val short = fun (value: String) = value.toShort()
-        val int = fun(value: String) = value.toInt()
-        val long = fun(value: String) = value.toLong()
-        val float = fun(value: String) = value.toFloat()
-        val double = fun(value: String) = value.toDouble()
-        val boolean = fun(value: String) = value.toBoolean()
-        val string = fun(value: String) = value
+        private val short = fun (value: String) = value.toShort()
+        private val int = fun(value: String) = value.toInt()
+        private val long = fun(value: String) = value.toLong()
+        private val float = fun(value: String) = value.toFloat()
+        private val double = fun(value: String) = value.toDouble()
+        private val boolean = fun(value: String) = value.toBoolean()
+        private val string = fun(value: String) = value
 
         val mapTypes = mapOf(
                 typeOf<Short>() to short,
