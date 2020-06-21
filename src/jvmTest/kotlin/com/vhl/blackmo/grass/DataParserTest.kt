@@ -73,6 +73,16 @@ class DataParserTest: WordSpec() {
 
                 assertTrue { expected0 == parsed.first() }
             }
+
+            "parse with white space" {
+                val expected =
+                        PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val contents = readTestFile("/primitive-with-white-space.csv")
+                val parsed = grass<PrimitiveTypes>().harvest(contents)
+                val actual = parsed.first()
+
+                assertTrue { expected == actual }
+            }
         }
 
 

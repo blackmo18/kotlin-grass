@@ -9,7 +9,8 @@ import kotlin.reflect.KType
  * @author blackmo18
  */
 @ExperimentalStdlibApi
-actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KClass<*>) : Root<T>(type, ctx.customKeyMap) {
+actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KClass<*>)
+    : Root<T>(type, ctx.trimWhiteSpace, ctx.customKeyMap) {
 
     actual val dateTimeTypes = DateTimeTypes(ctx.dateFormat, ctx.timeFormat, ctx.dateTimeSeparator)
 
