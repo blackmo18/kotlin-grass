@@ -44,7 +44,7 @@
 # Usage
 #### Gradle DSL:
 ```
-implementation("com.vhl.blackmo:kotlin-grass-jvm:0.2.2")
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.3.0")
 ```
 
 
