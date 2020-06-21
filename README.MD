@@ -44,7 +44,7 @@
 # Usage
 #### Gradle DSL:
 ```
-implementation("com.vhl.blackmo:kotlin-grass-jvm:0.1.0")
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.2.2")
 ```
 
 
@@ -78,6 +78,7 @@ implementation("com.vhl.blackmo:kotlin-grass-jvm:0.1.0")
 | dateFormat |`yyyy-MM-dd`| date format |
 | timeFormat | `HH:mm` | time format |
 | dateTimeSeparator | `(space)` | date time separator |
+| trimWhiteSpace | `true` | trims white spaces on csv entries |
 | customKeyMap | `null` |`Map<String,String>` custom key mapping  |
 
 # Java Date Time API Support
