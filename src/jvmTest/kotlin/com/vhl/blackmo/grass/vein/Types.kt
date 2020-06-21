@@ -1,4 +1,4 @@
-package com.vhl.blackmo.grass.vien
+package com.vhl.blackmo.grass.vein
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec

@@ -1,4 +1,4 @@
-package com.vhl.blackmo.grass.vien
+package com.vhl.blackmo.grass.vein
 
 import java.time.LocalDate
 import java.time.LocalDateTime
