@@ -29,6 +29,7 @@
   * No hard configuration
   * No invasive annotations to data class
   * Custom mapping
+  * Nullable Data Types
 ### 2. Primitive Types
   * Short
   * Int
@@ -67,6 +68,14 @@ implementation("com.vhl.blackmo:kotlin-grass-jvm:0.3.0")
         val boolean: Boolean,
         val string: String
     )
+```
+If a variable in your data class is nullable, all you have to do is mark it with  `?`
+```kotlin
+data class NullableData(
+    val nullableString: String?,
+    val nullableInt: Int? = null,
+    ...
+)
 ```
 
 #### Parsing  to data class
