@@ -106,12 +106,21 @@ tasks.jacocoTestReport {
             "src/commonMain",
             "src/jvmMain"
     )
-    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
-            .walkBottomUp()
-            .toSet()
-    classDirectories.setFrom(classFiles)
+
+//    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
+//            .walkBottomUp()
+//            .toSet()
+//    classDirectories.setFrom(classFiles)
+
+    classDirectories.setFrom(
+            sourceSets.main.get().output.asFileTree.matching {
+                exclude("$buildDir/classes/kotlin/jvm/com/vhl/blackmo/grass/data")
+            }
+    )
+
     sourceDirectories.setFrom(files(coverageSourceDirs))
     additionalSourceDirs.setFrom(files(coverageSourceDirs))
+
 
     executionData
             .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))

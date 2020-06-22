@@ -1,5 +1,6 @@
 package com.vhl.blackmo.grass
 
+import com.vhl.blackmo.grass.data.MissMatch
 import com.vhl.blackmo.grass.data.PrimitiveTypes
 import com.vhl.blackmo.grass.dsl.grass
 import com.vhl.blackmo.grass.errors.MissMatchedNumberOfFieldsException
@@ -28,12 +29,8 @@ class HandlingErrors: WordSpec() {
                 }
             }
             "throw miss matched number of fields" {
-                data class Grass(
-                    val short: Short,
-                    val int: Int
-                )
                 val contents = readTestFile("/primitive.csv").asSequence()
-                val parsed = grass<Grass>().harvest(contents)
+                val parsed = grass<MissMatch>().harvest(contents)
                 shouldThrow<MissMatchedNumberOfFieldsException> {
                     parsed.first()
                 }
