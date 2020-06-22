@@ -77,12 +77,12 @@ abstract class Root<out T>(
                 }
                 else -> {
                     if (customKeyMap.isNotEmpty()) {
-                        if (customKeyMap.containsValue(key)) {
+                        if (customKeyMap.containsKey(key)) {
                             val mappedKey = customKeyMap[key]?.trim()
                             if(paramNTypes.containsKey(mappedKey)) {
                                 customKeyMap.remove(mappedKey)
-                                val index = paramNIndex[key]!!
-                                actualParams[index] = paramNTypes[key]!!.invoke(mapRow.value)
+                                val index = paramNIndex[mappedKey]!!
+                                actualParams[index] = paramNTypes[mappedKey]!!.invoke(mapRow.value)
                                 continue@loop
                             }
                         }
