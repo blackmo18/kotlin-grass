@@ -69,7 +69,9 @@ implementation("com.vhl.blackmo:kotlin-grass-jvm:0.3.0")
         val string: String
     )
 ```
-If a variable in your data class is nullable, all you have to do is mark it with  `?`
+
+#### Nullable Data Types
+If a variable in your data class is a nullable, all you have to do is mark it with  `?`
 ```kotlin
 data class NullableData(
     val nullableString: String?,
