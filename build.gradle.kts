@@ -107,16 +107,16 @@ tasks.jacocoTestReport {
             "src/jvmMain"
     )
 
-//    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
-//            .walkBottomUp()
-//            .toSet()
-//    classDirectories.setFrom(classFiles)
-
-    classDirectories.setFrom(
-            sourceSets.main.get().output.asFileTree.matching {
-                exclude("$buildDir/classes/kotlin/jvm/com/vhl/blackmo/grass/data")
+    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
+            .walkBottomUp()
+            .toSet()
+            .filterNot {
+                val fileNamePath = it.absolutePath
+                val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
+                dir.endsWith("/test/com/vhl/blackmo/grass/data")
             }
-    )
+
+    classDirectories.setFrom(classFiles)
 
     sourceDirectories.setFrom(files(coverageSourceDirs))
     additionalSourceDirs.setFrom(files(coverageSourceDirs))
