@@ -110,14 +110,14 @@ tasks.jacocoTestReport {
     val classFiles = File("${buildDir}/classes/kotlin/jvm/")
             .walkBottomUp()
             .toSet()
+            .filter { it.isFile }
             .filterNot {
                 val fileNamePath = it.absolutePath
                 val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
-                dir.endsWith("/test/com/vhl/blackmo/grass/data")
+                dir.contains("com/vhl/blackmo/grass/data")
             }
 
     classDirectories.setFrom(classFiles)
-
     sourceDirectories.setFrom(files(coverageSourceDirs))
     additionalSourceDirs.setFrom(files(coverageSourceDirs))
 
