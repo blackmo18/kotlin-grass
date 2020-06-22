@@ -73,6 +73,16 @@ class DataParserTest: WordSpec() {
 
                 assertTrue { expected0 == parsed.first() }
             }
+
+            "parse with white space" {
+                val expected =
+                        PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val contents = readTestFile("/primitive-with-white-space.csv")
+                val parsed = grass<PrimitiveTypes>().harvest(contents)
+                val actual = parsed.first()
+
+                assertTrue { expected == actual }
+            }
         }
 
 
@@ -113,9 +123,9 @@ class DataParserTest: WordSpec() {
         "custom key value" should {
             "able to map custom key" {
                 val expected = PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
-                val contents = readTestFile("/primitive.csv").asSequence()
+                val contents = readTestFile("/primitive-missmatched.csv").asSequence()
                 val parsed = grass<PrimitiveTypes>{
-                    customKeyMap = mapOf("long" to "longX", "float" to "floatX")
+                    customKeyMap = mapOf("longX" to "long", "floatX" to "float")
                 }.harvest(contents)
                 val actual = parsed.first()
 

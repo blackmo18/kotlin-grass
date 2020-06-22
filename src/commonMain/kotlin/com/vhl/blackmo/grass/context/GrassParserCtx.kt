@@ -7,5 +7,6 @@ interface GrassParserCtx {
     val dateFormat: String
     val timeFormat: String
     val dateTimeSeparator: String
+    val trimWhiteSpace: Boolean
     val customKeyMap: Map<String, String>?
 }

@@ -2,7 +2,7 @@ package com.vhl.blackmo.grass.pot
 
 import com.vhl.blackmo.grass.errors.MissMatchedNumberOfFieldsException
 import com.vhl.blackmo.grass.errors.MissMatchedFieldNameException
-import com.vhl.blackmo.grass.vien.PrimitiveType
+import com.vhl.blackmo.grass.vein.PrimitiveType
 import kotlin.reflect.*
 
 /**
@@ -12,6 +12,7 @@ import kotlin.reflect.*
 @ExperimentalStdlibApi
 abstract class Root<out T>(
     private val type: KClass<*>,
+    private val trim: Boolean,
     private val receivedKeyMap: Map<String, String>?
 ) {
 
@@ -62,24 +63,26 @@ abstract class Root<out T>(
         validateNumberOfFields(row.keys.size, paramNTypes.size)
 
         loop@ for (mapRow in row) {
-            val hasKey = paramNTypes.containsKey(mapRow.key)
+            val key = mapRow.key.trim()
+            val value = mapRow.value.trimOrNot(trim)
+            val hasKey = paramNTypes.containsKey(key)
             when {
                 hasKey && mapRow.value.isNotBlank() -> {
-                    val index = paramNIndex[mapRow.key]!!
-                    actualParams[index] = paramNTypes[mapRow.key]!!.invoke(mapRow.value)
+                    val index = paramNIndex[key]!!
+                    actualParams[index] = paramNTypes[key]!!.invoke(value)
                 }
                 hasKey && mapRow.value.isBlank() -> {
-                    val index = paramNIndex[mapRow.key]!!
+                    val index = paramNIndex[key]!!
                     actualParams[index] = null
                 }
                 else -> {
                     if (customKeyMap.isNotEmpty()) {
-                        if (customKeyMap.containsValue(mapRow.key)) {
-                            val mappedKey = customKeyMap[mapRow.key]
+                        if (customKeyMap.containsKey(key)) {
+                            val mappedKey = customKeyMap[key]?.trim()
                             if(paramNTypes.containsKey(mappedKey)) {
                                 customKeyMap.remove(mappedKey)
-                                val index = paramNIndex[mapRow.key]!!
-                                actualParams[index] = paramNTypes[mapRow.key]!!.invoke(mapRow.value)
+                                val index = paramNIndex[mappedKey]!!
+                                actualParams[index] = paramNTypes[mappedKey]!!.invoke(mapRow.value)
                                 continue@loop
                             }
                         }
@@ -89,6 +92,11 @@ abstract class Root<out T>(
             }
         }
         return actualParams
+    }
+
+    private fun String.trimOrNot(boolean: Boolean): String = when {
+        boolean -> this.trim()
+        else -> this
     }
 
     private fun validateNumberOfFields(csvLength: Int, dataClassFieldLength: Int) {
