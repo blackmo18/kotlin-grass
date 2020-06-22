@@ -48,6 +48,9 @@
 # Usage
 #### Gradle DSL:
 ```
+//doyaaaaaken's kotlin-csv
+implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.10.4")
+//kotlin-grass
 implementation("com.vhl.blackmo:kotlin-grass-jvm:0.3.0")
 ```
 
@@ -73,11 +76,11 @@ implementation("com.vhl.blackmo:kotlin-grass-jvm:0.3.0")
 #### Nullable Data Types
 If a variable in your data class is a nullable, all you have to do is mark it with  `?`
 ```kotlin
-data class NullableData(
-    val nullableString: String?,
-    val nullableInt: Int? = null,
-    ...
-)
+    data class NullableData(
+        val nullableString: String?,
+        val nullableInt: Int? = null,
+        ...
+    )
 ```
 
 #### Parsing  to data class
