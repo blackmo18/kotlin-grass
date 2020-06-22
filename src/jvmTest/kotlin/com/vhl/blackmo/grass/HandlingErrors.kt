@@ -43,7 +43,7 @@ class HandlingErrors: WordSpec() {
                 val parsed = grass<PrimitiveTypes>{
                     trimWhiteSpace = false
                 }.harvest(contents)
-                shouldThrow<MissMatchedFieldNameException> {
+                shouldThrow<Exception> {
                     parsed.first()
                 }
             }
