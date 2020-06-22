@@ -38,6 +38,15 @@ class HandlingErrors: WordSpec() {
                     parsed.first()
                 }
             }
+            "throw Miss Match Field Name Exception on white space " {
+                val contents = readTestFile("/primitive-with-white-space.csv").asSequence()
+                val parsed = grass<PrimitiveTypes>{
+                    trimWhiteSpace = false
+                }.harvest(contents)
+                shouldThrow<MissMatchedFieldNameException> {
+                    parsed.first()
+                }
+            }
         }
     }
 }
