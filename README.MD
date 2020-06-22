@@ -12,6 +12,9 @@
   <a href="https://www.codefactor.io/repository/github/blackmo18/kotlin-grass">
     <img src="https://www.codefactor.io/repository/github/blackmo18/kotlin-grass/badge" alt="CodeFactor" />
   </a>
+  <a href="https://codecov.io/gh/blackmo18/kotlin-grass">
+    <img src="https://codecov.io/gh/blackmo18/kotlin-grass/branch/master/graph/badge.svg" />
+  </a>
 </p>
 
 >Csv File to Kotlin  Data Class Parser<br />
