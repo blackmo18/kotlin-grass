@@ -29,6 +29,7 @@
   * No hard configuration
   * No invasive annotations to data class
   * Custom mapping
+  * Nullable Data Types
 ### 2. Primitive Types
   * Short
   * Int
@@ -47,6 +48,9 @@
 # Usage
 #### Gradle DSL:
 ```
+//doyaaaaaken's kotlin-csv
+implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.10.4")
+//kotlin-grass
 implementation("com.vhl.blackmo:kotlin-grass-jvm:0.3.0")
 ```
 
@@ -66,6 +70,16 @@ implementation("com.vhl.blackmo:kotlin-grass-jvm:0.3.0")
         val double: Double,
         val boolean: Boolean,
         val string: String
+    )
+```
+
+#### Nullable Data Types
+If a variable in your data class is a nullable, all you have to do is mark it with  `?`
+```kotlin
+    data class NullableData(
+        val nullableString: String?,
+        val nullableInt: Int? = null,
+        ...
     )
 ```
 
