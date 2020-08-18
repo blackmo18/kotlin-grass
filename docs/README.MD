@@ -21,8 +21,6 @@
 >Currently, it requires to have  `@ExperimentalStdlibApi` on the class/method  using  this Library.<br />
 >Requires [kotlin-csv by doyaaaaaken](https://github.com/doyaaaaaken/kotlin-csv/) for reading csv file
 
-
-
 # Features
 
 ### 1. Simple And Direct
@@ -47,7 +45,16 @@
 
 # Usage
 #### Gradle DSL:
+```kotlin
+//doyaaaaaken's kotlin-csv
+implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.11.0")
+//kotlin-grass
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.4.0")
 ```
+
+### Prior to Kotlin 1.4.0
+Please use the following version
+```kotlin
 //doyaaaaaken's kotlin-csv
 implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.10.4")
 //kotlin-grass
@@ -150,4 +157,4 @@ Give a ⭐️ if this project helped you!
 Copyright © 2020 [blackmo18](https://github.com/blackmo18). <br />
 This project is [Apache License 2.0](https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE) licensed.
 ***
-This project is inspired ❤️ by [kotlin-csv](https://github.com/doyaaaaaken/kotlin-csv)
+This project inspired ❤️ by [kotlin-csv](https://github.com/doyaaaaaken/kotlin-csv)

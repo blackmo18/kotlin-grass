@@ -10,7 +10,7 @@ import kotlin.reflect.KType
  */
 @ExperimentalStdlibApi
 actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KClass<*>)
-    : Root<T>(type, ctx.trimWhiteSpace, ctx.customKeyMap) {
+    : Stem<T>(type, ctx.trimWhiteSpace, ctx.customKeyMap) {
 
     actual val dateTimeTypes = DateTimeTypes(ctx.dateFormat, ctx.timeFormat, ctx.dateTimeSeparator)
 
@@ -19,7 +19,7 @@ actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KCla
         else -> super.getType(type)
     }
 
-actual fun harvest(seed: List<Map<String, String>>): List<T> {
+    actual fun harvest(seed: List<Map<String, String>>): List<T> {
         return harvestData(seed)
     }
 

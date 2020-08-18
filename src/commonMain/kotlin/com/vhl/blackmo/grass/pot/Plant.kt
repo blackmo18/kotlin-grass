@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
  */
 @ExperimentalStdlibApi
  expect  class Plant<T> actual constructor(ctx: GrassParserContext, type: KClass<*>):
-    Root<T> {
+    Stem<T> {
     val dateTimeTypes : DateTimeTypes
     fun harvest(seed: List<Map<String, String>>): List<T>
     fun harvest(seed: Sequence<Map<String, String>>): Sequence<T>
