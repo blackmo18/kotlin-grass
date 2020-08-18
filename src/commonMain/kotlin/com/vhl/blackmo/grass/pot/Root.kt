@@ -16,13 +16,13 @@ open class Root<out T>(
 ) {
 
     /**
-     * Key-value pair containing the expression fro converting from from csv column
-     * to actual type(class definition)
+     * Key-value pair containing the expression from converting from from data class property name
+     * to actual type(class property definition)
      */
     protected val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
 
     /**
-     * Key value pair index or oder of the csv column
+     * Key value pair index(order) of the  data class property vs property name
      */
     protected val paramNIndex = mutableMapOf<String?, Int >()
 
