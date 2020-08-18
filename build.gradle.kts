@@ -1,9 +1,5 @@
-import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
-import com.jfrog.bintray.gradle.BintrayExtension
-import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
-
 plugins {
-    kotlin("multiplatform") version "1.3.72"
+    kotlin("multiplatform") version "1.4.0"
     id("maven-publish")
     id("org.jetbrains.dokka").version("0.9.18")
     id("com.jfrog.bintray") version "1.8.5"
@@ -11,11 +7,11 @@ plugins {
     jacoco
 }
 
-val kotlin_version = "1.3.72"
-val csv_version = "0.10.4"
+val kotlinVersion = "1.4.0"
+val csvVersion = "0.11.0"
 
 group = "com.vhl.blackmo"
-version = "0.3.0"
+version = "0.4.0"
 
 repositories {
     jcenter()
@@ -53,7 +49,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
+                implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
             }
         }
         val commonTest by getting {
@@ -72,7 +68,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
-                implementation("com.github.doyaaaaaken:kotlin-csv-jvm:$csv_version")
+                implementation("com.github.doyaaaaaken:kotlin-csv-jvm:$csvVersion")
             }
         }
     }
