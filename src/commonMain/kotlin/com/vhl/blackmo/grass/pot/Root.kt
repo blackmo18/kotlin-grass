@@ -8,56 +8,22 @@ import kotlin.reflect.*
 /**
  * @author blackmo18
  */
-@Suppress("UNCHECKED_CAST")
 @ExperimentalStdlibApi
 abstract class Root<out T>(
-    private val type: KClass<*>,
+    protected val type: KClass<*>,
     private val trim: Boolean,
-    private val receivedKeyMap: Map<String, String>?
+    protected val receivedKeyMap: Map<String, String>?
 ) {
 
-    private val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
-    private val paramNIndex = mutableMapOf<String?, Int >()
-    private val paramNames = mutableListOf<String?>()
-    private val processedKey = mutableSetOf<String>()
-    private val customKeyMap = mutableMapOf<String,String>()
+    protected val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
+    protected val paramNIndex = mutableMapOf<String?, Int >()
+    protected val customKeyMap = mutableMapOf<String,String>()
 
-    private fun initOnMethod() {
-        type.constructors.first().parameters.forEach {
-            paramNTypes[it.name] = getType(it.type)
-            paramNIndex[it.name] = it.index
-            paramNames.add(it.name)
-            receivedKeyMap?.let {
-                customKeyMap.putAll(it)
-            }
-        }
-    }
+    protected  abstract fun initOnMethod()
+    protected  abstract fun harvestData(rows: Sequence<Map<String, String>>): Sequence<T>
+    protected  abstract fun harvestData(rows: List<Map<String, String>>): List<T>
 
-    fun harvestData(rows: Sequence<Map<String, String>>): Sequence<T> {
-        initOnMethod()
-        val constructor = type.constructors.first()
-        return sequence {
-            rows.forEach { entry ->
-                val params = createObject(entry)
-                val obj = constructor.call(*params)
-                yield(obj as T)
-            }
-        }
-    }
-
-    fun harvestData(rows: List<Map<String, String>>): List<T> {
-        initOnMethod()
-        val constructor = type.constructors.first()
-        val listObject = mutableListOf<T>()
-        rows.forEach { entry ->
-            val params = createObject(entry)
-            val obj = constructor.call(*params)
-            listObject.add(obj as T)
-        }
-        return listObject
-    }
-
-    private fun createObject( row: Map<String, String>): Array<Any?> {
+    protected fun createObject( row: Map<String, String>): Array<Any?> {
 
         val actualParams = Array<Any?>(paramNTypes.size){}
         validateNumberOfFields(row.keys.size, paramNTypes.size)
