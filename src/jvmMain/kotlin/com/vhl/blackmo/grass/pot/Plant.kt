@@ -10,7 +10,7 @@ import kotlin.reflect.KType
  */
 @Suppress("UNCHECKED_CAST")
 @ExperimentalStdlibApi
-actual class Plant<T> actual constructor(ctx: GrassParserContext, type: KClass<*>)
+actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KClass<*>)
     : Stem<T>(type, ctx.trimWhiteSpace, ctx.customKeyMap) {
 
     actual val dateTimeTypes = DateTimeTypes(ctx.dateFormat, ctx.timeFormat, ctx.dateTimeSeparator)
