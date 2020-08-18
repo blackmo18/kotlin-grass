@@ -2,6 +2,9 @@ package com.vhl.blackmo.grass.pot
 
 import kotlin.reflect.KClass
 
+/**
+ * @author blackmo18
+ */
 @ExperimentalStdlibApi
 expect open class Stem<out T> actual  constructor(
         type: KClass<*>,

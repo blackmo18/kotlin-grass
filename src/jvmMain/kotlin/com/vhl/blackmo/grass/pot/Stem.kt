@@ -2,6 +2,13 @@ package com.vhl.blackmo.grass.pot
 
 import kotlin.reflect.KClass
 
+/**
+ * An abstraction layer for an actual class implementation on Parsing CSV Contents
+ * @author blackmo18
+ * @param type target data class type
+ * @param trim trims the column name
+ * @param receivedKeyMap custom key mapping of column and data class property
+ */
 @Suppress("UNCHECKED_CAST")
 @ExperimentalStdlibApi
 actual open class Stem<out T> actual constructor(

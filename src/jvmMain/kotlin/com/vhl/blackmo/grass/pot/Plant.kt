@@ -8,7 +8,6 @@ import kotlin.reflect.KType
 /**
  * @author blackmo18
  */
-@Suppress("UNCHECKED_CAST")
 @ExperimentalStdlibApi
 actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KClass<*>)
     : Stem<T>(type, ctx.trimWhiteSpace, ctx.customKeyMap) {
