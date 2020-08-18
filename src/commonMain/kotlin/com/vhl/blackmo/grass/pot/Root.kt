@@ -9,19 +9,31 @@ import kotlin.reflect.*
  * @author blackmo18
  */
 @ExperimentalStdlibApi
-abstract class Root<out T>(
-    protected val type: KClass<*>,
-    private val trim: Boolean,
-    protected val receivedKeyMap: Map<String, String>?
+open class Root<out T>(
+        val type: KClass<*>,
+        private val trim: Boolean,
+        val receivedKeyMap: Map<String, String>?
 ) {
 
+    /**
+     * Key-value pair containing the expression fro converting from from csv column
+     * to actual type(class definition)
+     */
     protected val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
+
+    /**
+     * Key value pair index or oder of the csv column
+     */
     protected val paramNIndex = mutableMapOf<String?, Int >()
+
+    /**
+     * User custom key mapping input
+     */
     protected val customKeyMap = mutableMapOf<String,String>()
 
-    protected  abstract fun initOnMethod()
-    protected  abstract fun harvestData(rows: Sequence<Map<String, String>>): Sequence<T>
-    protected  abstract fun harvestData(rows: List<Map<String, String>>): List<T>
+    /**
+     * Method that is overridden to initialized the value of types and indexes mapping
+     */
 
     protected fun createObject( row: Map<String, String>): Array<Any?> {
 
