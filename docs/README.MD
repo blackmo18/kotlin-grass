@@ -1,5 +1,6 @@
 <h1 align="center">kotlin-grass</h1>
 <p>
+  <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-1.4.0-green.svg?cacheSeconds=2592000" />
   <a href='https://bintray.com/blackmo18/kotlin-libraries/kotlin-grass/_latestVersion'>
     <img src='https://api.bintray.com/packages/blackmo18/kotlin-libraries/kotlin-grass/images/download.svg'>
     </a>
@@ -49,10 +50,10 @@
 //doyaaaaaken's kotlin-csv
 implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.11.0")
 //kotlin-grass
-implementation("com.vhl.blackmo:kotlin-grass-jvm:0.4.0")
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.4.1")
 ```
 
-### Prior to Kotlin 1.4.0
+#### Prior to Kotlin 1.4.0
 Please use the following version
 ```kotlin
 //doyaaaaaken's kotlin-csv
