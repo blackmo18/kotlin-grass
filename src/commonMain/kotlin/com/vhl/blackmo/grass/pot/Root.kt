@@ -19,7 +19,7 @@ open class Root<out T>(
         val receivedKeyMap: Map<String, String>?
 ) {
     /**
-     * Key-value pair containing the expression from converting from from data class property name
+     * Key-value pair containing the expression on converting from from data class property name
      * to actual type(class property definition)
      */
     protected val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
@@ -35,7 +35,9 @@ open class Root<out T>(
     protected val customKeyMap = mutableMapOf<String,String>()
 
     /**
-     * Method that is overridden to initialized the value of types and indexes mapping
+     * Converts csv row entry to specified **data class** fields
+     * @param row Map of  csv column-header to row-column
+     * @return array of converted columns into defined data class field type
      */
     protected fun createObject( row: Map<String, String>): Array<Any?> {
 
@@ -51,7 +53,7 @@ open class Root<out T>(
                     val index = paramNIndex[key]!!
                     actualParams[index] = paramNTypes[key]!!.invoke(value)
                 }
-                hasKey && mapRow.value.isBlank() -> {
+                hasKey && value.isBlank() -> {
                     val index = paramNIndex[key]!!
                     actualParams[index] = null
                 }
