@@ -6,6 +6,10 @@ import com.vhl.blackmo.grass.vein.PrimitiveType
 import kotlin.reflect.*
 
 /**
+ * Abstract **class** Conversion Engine of csv contents to **data** class definition
+ * @param type data **class** definition
+ * @param trim removes white spaces defined within csv column entry
+ * @param receivedKeyMap custom user defined key mapping values
  * @author blackmo18
  */
 @ExperimentalStdlibApi
@@ -14,7 +18,6 @@ open class Root<out T>(
         private val trim: Boolean,
         val receivedKeyMap: Map<String, String>?
 ) {
-
     /**
      * Key-value pair containing the expression from converting from from data class property name
      * to actual type(class property definition)
@@ -34,7 +37,6 @@ open class Root<out T>(
     /**
      * Method that is overridden to initialized the value of types and indexes mapping
      */
-
     protected fun createObject( row: Map<String, String>): Array<Any?> {
 
         val actualParams = Array<Any?>(paramNTypes.size){}
@@ -83,5 +85,10 @@ open class Root<out T>(
         }
     }
 
+    /**
+     * Returns type conversion function to specific data type
+     * @param type field definition
+     * @return callable conversion function
+     */
     open fun getType(type: KType)  = PrimitiveType.mapTypes[type]
 }

@@ -3,6 +3,14 @@ package com.vhl.blackmo.grass.vein
 import kotlin.reflect.typeOf
 
 /**
+ * Defines Primitive data types in kotlin
+ *  * [Short]
+ *  * [Int]
+ *  * [Long]
+ *  * [Float]
+ *  * [Double]
+ *  * [Boolean]
+ *  * [String]
  *
  * @author blackmo18
  */
@@ -17,6 +25,9 @@ internal class PrimitiveType {
         private val boolean = fun(value: String) = value.toBoolean()
         private val string = fun(value: String) = value
 
+        /**
+         * Returns primitive data type mapping
+         */
         val mapTypes = mapOf(
                 typeOf<Short>() to short,
                 typeOf<Int>() to int,

@@ -3,11 +3,11 @@ package com.vhl.blackmo.grass.pot
 import kotlin.reflect.KClass
 
 /**
- * An abstraction layer for an actual class implementation on Parsing CSV Contents
+ * Implementation **class** of [Root] Conversion Engine from csv contents to **data class** definition
+ * @param type data **class** definition
+ * @param trim removes white spaces defined within csv column entry
+ * @param receivedKeyMap custom user defined key mapping values
  * @author blackmo18
- * @param type target data class type
- * @param trim trims the column name
- * @param receivedKeyMap custom key mapping of column and data class property
  */
 @Suppress("UNCHECKED_CAST")
 @ExperimentalStdlibApi
@@ -16,6 +16,9 @@ actual open class Stem<out T> actual constructor(
         trim: Boolean,
         receivedKeyMap: Map<String, String>?
 ): Root<T>(type, trim, receivedKeyMap) {
+    /**
+     * @return converted sequence of data [T]
+     */
     actual fun harvestData(seed: Sequence<Map<String, String>>): Sequence<T> {
         initOnMethod()
         val constructor = type.constructors.first()
@@ -27,7 +30,9 @@ actual open class Stem<out T> actual constructor(
             }
         }
     }
-
+    /**
+     * @return converted list of data [T]
+     */
     actual fun harvestData(seed: List<Map<String, String>>): List<T> {
         initOnMethod()
         val constructor = type.constructors.first()
@@ -47,5 +52,4 @@ actual open class Stem<out T> actual constructor(
             receivedKeyMap?.let { customKeyMap.putAll(it) }
         }
     }
-
 }

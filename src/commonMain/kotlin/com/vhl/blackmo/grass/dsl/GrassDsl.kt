@@ -4,6 +4,8 @@ import com.vhl.blackmo.grass.pot.Plant
 import com.vhl.blackmo.grass.context.GrassParserContext
 
 /**
+ * @param init default Customization Configuration [GrassParserContext]
+ * @return Conversion engine [Plant] implementation of csv contents to **data class**
  * @author blackmo18
  */
 @ExperimentalStdlibApi
