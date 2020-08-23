@@ -1,8 +1,11 @@
 # 0.4.1
 Source Code Documentation and Hints
-   - classes
-   - methods
-   - public fields
+  - classes
+  - methods
+  - public fields
+   
+Root
+  - code cleanup on variable usages
    
 # 0.4.0
 Update Kotlin Version
