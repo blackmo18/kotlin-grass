@@ -1,4 +1,4 @@
-<h1 align="center">kotlin-grass</h1>
+<img src="./logo.png" alt="Kotlin-Grass" width="315" />
 <p>
   <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-1.4.0-teal.svg?logo=kotlin" />
   <a href='https://bintray.com/blackmo18/kotlin-libraries/kotlin-grass/_latestVersion'>
