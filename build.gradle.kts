@@ -11,7 +11,7 @@ val kotlinVersion = "1.4.0"
 val csvVersion = "0.11.0"
 
 group = "com.vhl.blackmo"
-version = "0.4.0"
+version = "0.4.1"
 
 repositories {
     jcenter()
