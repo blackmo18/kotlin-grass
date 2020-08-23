@@ -1,7 +1,12 @@
 package com.vhl.blackmo.grass.context
 
 /**
- * @author blackmo18
+ * Interface Customization Configuration Context
+ *  * date formatting
+ *  * time formatting
+ *  * date-time separator
+ *  * trim white space
+ *  * custom key mapping
  */
 interface GrassParserCtx {
     val dateFormat: String

@@ -1,10 +1,11 @@
-<h1 align="center">kotlin-grass</h1>
+<img src="./logo.png" alt="Kotlin-Grass"/>
 <p>
+  <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-1.4.0-teal.svg?logo=kotlin" />
   <a href='https://bintray.com/blackmo18/kotlin-libraries/kotlin-grass/_latestVersion'>
     <img src='https://api.bintray.com/packages/blackmo18/kotlin-libraries/kotlin-grass/images/download.svg'>
     </a>
   <a href="https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE">
-    <img alt="License: Apache License 2.0" src="https://img.shields.io/badge/License-Apache License 2.0-yellow.svg" target="_blank" />
+    <img alt="License: Apache License 2.0" src="https://img.shields.io/badge/License-Apache License 2.0-orange.svg" target="_blank" />
   </a>
   <a href="https://github.com/blackmo18/kotlin-grass/workflows/build/badge.svg?branch=master">
     <img src="https://github.com/blackmo18/kotlin-grass/workflows/build/badge.svg?branch=master" alt="CodeFactor" />
@@ -19,7 +20,10 @@
 
 >Csv File to Kotlin  Data Class Parser<br />
 >Currently, it requires to have  `@ExperimentalStdlibApi` on the class/method  using  this Library.<br />
->Requires [kotlin-csv by doyaaaaaken](https://github.com/doyaaaaaken/kotlin-csv/) for reading csv file
+>Requires [kotlin-csv by doyaaaaaken](https://github.com/doyaaaaaken/kotlin-csv/) for reading csv file.<br />
+
+# Links
+* [Change Log](https://github.com/blackmo18/kotlin-grass/blob/master/docs/ChangeLog.MD) - updates and bug fixes
 
 # Features
 
@@ -49,10 +53,10 @@
 //doyaaaaaken's kotlin-csv
 implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.11.0")
 //kotlin-grass
-implementation("com.vhl.blackmo:kotlin-grass-jvm:0.4.0")
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.4.1")
 ```
 
-### Prior to Kotlin 1.4.0
+#### Prior to Kotlin 1.4.0
 Please use the following version
 ```kotlin
 //doyaaaaaken's kotlin-csv

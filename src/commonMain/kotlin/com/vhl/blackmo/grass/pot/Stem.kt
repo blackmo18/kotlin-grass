@@ -3,6 +3,10 @@ package com.vhl.blackmo.grass.pot
 import kotlin.reflect.KClass
 
 /**
+ * Implementation **class** of [Root] Conversion Engine from csv contents to **data class** definition
+ * @param type data **class** definition
+ * @param trim removes white spaces defined within csv column entry
+ * @param receivedKeyMap custom user defined key mapping values
  * @author blackmo18
  */
 @ExperimentalStdlibApi

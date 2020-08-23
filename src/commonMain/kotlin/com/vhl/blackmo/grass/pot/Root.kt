@@ -6,6 +6,10 @@ import com.vhl.blackmo.grass.vein.PrimitiveType
 import kotlin.reflect.*
 
 /**
+ * Abstract **class** Conversion Engine of csv contents to **data** class definition
+ * @param type data **class** definition
+ * @param trim removes white spaces defined within csv column entry
+ * @param receivedKeyMap custom user defined key mapping values
  * @author blackmo18
  */
 @ExperimentalStdlibApi
@@ -14,9 +18,8 @@ open class Root<out T>(
         private val trim: Boolean,
         val receivedKeyMap: Map<String, String>?
 ) {
-
     /**
-     * Key-value pair containing the expression from converting from from data class property name
+     * Key-value pair containing the expression on converting from data class property name
      * to actual type(class property definition)
      */
     protected val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
@@ -32,37 +35,36 @@ open class Root<out T>(
     protected val customKeyMap = mutableMapOf<String,String>()
 
     /**
-     * Method that is overridden to initialized the value of types and indexes mapping
+     * Converts csv row entry to specified **data class** fields
+     * @param row Map of  csv column-header to row-column
+     * @return array of converted columns into defined data class field type
      */
-
     protected fun createObject( row: Map<String, String>): Array<Any?> {
 
         val actualParams = Array<Any?>(paramNTypes.size){}
         validateNumberOfFields(row.keys.size, paramNTypes.size)
 
-        loop@ for (mapRow in row) {
+        row.forEach { mapRow ->
             val key = mapRow.key.trim()
             val value = mapRow.value.trimOrNot(trim)
             val hasKey = paramNTypes.containsKey(key)
             when {
-                hasKey && mapRow.value.isNotBlank() -> {
+                hasKey && value.isNotBlank() -> {
                     val index = paramNIndex[key]!!
                     actualParams[index] = paramNTypes[key]!!.invoke(value)
                 }
-                hasKey && mapRow.value.isBlank() -> {
+                hasKey && value.isBlank() -> {
                     val index = paramNIndex[key]!!
                     actualParams[index] = null
                 }
                 else -> {
-                    if (customKeyMap.isNotEmpty()) {
-                        if (customKeyMap.containsKey(key)) {
-                            val mappedKey = customKeyMap[key]?.trim()
-                            if(paramNTypes.containsKey(mappedKey)) {
-                                customKeyMap.remove(mappedKey)
-                                val index = paramNIndex[mappedKey]!!
-                                actualParams[index] = paramNTypes[mappedKey]!!.invoke(mapRow.value)
-                                continue@loop
-                            }
+                    if (customKeyMap.isNotEmpty() && customKeyMap.containsKey(key)) {
+                        val mappedKey = customKeyMap[key]?.trim()
+                        if(paramNTypes.containsKey(mappedKey)) {
+                            customKeyMap.remove(mappedKey)
+                            val index = paramNIndex[mappedKey]!!
+                            actualParams[index] = paramNTypes[mappedKey]!!.invoke(mapRow.value)
+                            return@forEach
                         }
                     }
                     throw MissMatchedFieldNameException(mapRow.key)
@@ -83,5 +85,10 @@ open class Root<out T>(
         }
     }
 
+    /**
+     * Returns type conversion function to specific data type
+     * @param type field definition
+     * @return callable conversion function
+     */
     open fun getType(type: KType)  = PrimitiveType.mapTypes[type]
 }

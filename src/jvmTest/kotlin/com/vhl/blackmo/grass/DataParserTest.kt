@@ -1,9 +1,6 @@
 package com.vhl.blackmo.grass
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import com.vhl.blackmo.grass.data.DateAndTime
-import com.vhl.blackmo.grass.data.DateTime
-import com.vhl.blackmo.grass.data.NullableDataTypes
-import com.vhl.blackmo.grass.data.PrimitiveTypes
+import com.vhl.blackmo.grass.data.*
 import com.vhl.blackmo.grass.dsl.grass
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -13,6 +10,7 @@ import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
@@ -79,6 +77,18 @@ class DataParserTest: WordSpec() {
                         PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
                 val contents = readTestFile("/primitive-with-white-space.csv")
                 val parsed = grass<PrimitiveTypes>().harvest(contents)
+                val actual = parsed.first()
+
+                assertTrue { expected == actual }
+            }
+            "parse with white space and trim" {
+                val expected =
+                        WhiteSpacedStrings(" 0", " 1", " 2", " 3.0", " 4.0", " true", " hello")
+                val contents = readTestFile("/primitive-with-white-space.csv")
+                val grass = grass<WhiteSpacedStrings> {
+                    trimWhiteSpace = false
+                }
+                val parsed = grass.harvest(contents)
                 val actual = parsed.first()
 
                 assertTrue { expected == actual }
