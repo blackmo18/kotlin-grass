@@ -19,7 +19,7 @@ open class Root<out T>(
         val receivedKeyMap: Map<String, String>?
 ) {
     /**
-     * Key-value pair containing the expression on converting from from data class property name
+     * Key-value pair containing the expression on converting from data class property name
      * to actual type(class property definition)
      */
     protected val paramNTypes = mutableMapOf<String?, ((String) -> Any)? >()
@@ -44,12 +44,12 @@ open class Root<out T>(
         val actualParams = Array<Any?>(paramNTypes.size){}
         validateNumberOfFields(row.keys.size, paramNTypes.size)
 
-        loop@ for (mapRow in row) {
+        row.forEach { mapRow ->
             val key = mapRow.key.trim()
             val value = mapRow.value.trimOrNot(trim)
             val hasKey = paramNTypes.containsKey(key)
             when {
-                hasKey && mapRow.value.isNotBlank() -> {
+                hasKey && value.isNotBlank() -> {
                     val index = paramNIndex[key]!!
                     actualParams[index] = paramNTypes[key]!!.invoke(value)
                 }
@@ -58,15 +58,13 @@ open class Root<out T>(
                     actualParams[index] = null
                 }
                 else -> {
-                    if (customKeyMap.isNotEmpty()) {
-                        if (customKeyMap.containsKey(key)) {
-                            val mappedKey = customKeyMap[key]?.trim()
-                            if(paramNTypes.containsKey(mappedKey)) {
-                                customKeyMap.remove(mappedKey)
-                                val index = paramNIndex[mappedKey]!!
-                                actualParams[index] = paramNTypes[mappedKey]!!.invoke(mapRow.value)
-                                continue@loop
-                            }
+                    if (customKeyMap.isNotEmpty() && customKeyMap.containsKey(key)) {
+                        val mappedKey = customKeyMap[key]?.trim()
+                        if(paramNTypes.containsKey(mappedKey)) {
+                            customKeyMap.remove(mappedKey)
+                            val index = paramNIndex[mappedKey]!!
+                            actualParams[index] = paramNTypes[mappedKey]!!.invoke(mapRow.value)
+                            return@forEach
                         }
                     }
                     throw MissMatchedFieldNameException(mapRow.key)

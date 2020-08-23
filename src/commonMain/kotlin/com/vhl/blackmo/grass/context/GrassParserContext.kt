@@ -24,7 +24,7 @@ class GrassParserContext : GrassParserCtx {
 
     /**
      * date time separator
-     * default value: **-**
+     * default value: **(space)**
      */
     override var dateTimeSeparator: String = " "
 
