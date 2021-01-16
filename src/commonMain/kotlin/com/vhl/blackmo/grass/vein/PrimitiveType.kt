@@ -17,13 +17,14 @@ import kotlin.reflect.typeOf
 internal class PrimitiveType {
     @ExperimentalStdlibApi
     companion object {
-        private val short = fun (value: String) = value.toShort()
-        private val int = fun(value: String) = value.toInt()
-        private val long = fun(value: String) = value.toLong()
-        private val float = fun(value: String) = value.toFloat()
-        private val double = fun(value: String) = value.toDouble()
-        private val boolean = fun(value: String) = value.toBoolean()
-        private val string = fun(value: String) = value
+        private val short = fun (value: String) = if (value.isNotBlank()) value.toShort() else null
+        private val int = fun(value: String) = if(value.isNotBlank()) value.toInt() else null
+        private val long = fun(value: String) = if(value.isNotBlank()) value.toLong() else null
+        private val float = fun(value: String) = if(value.isNotBlank()) value.toFloat() else null
+        private val double = fun(value: String) = if(value.isNotBlank()) value.toDouble() else null
+        private val boolean = fun(value: String) = if(value.isNotBlank()) value.toBoolean() else null
+        private val string = fun(value: String) = if(value.isNotBlank()) value else null
+
 
         /**
          * Returns primitive data type mapping

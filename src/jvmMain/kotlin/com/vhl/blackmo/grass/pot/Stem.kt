@@ -47,7 +47,7 @@ actual open class Stem<out T> actual constructor(
 
     private fun initOnMethod() {
         type.constructors.first().parameters.forEach { kParam ->
-            paramNTypes[kParam.name] = getType(kParam.type)
+            paramNTypes[kParam.name] = getType(kParam.type) as ((String) -> Any)?
             paramNIndex[kParam.name] = kParam.index
             receivedKeyMap?.let { customKeyMap.putAll(it) }
         }
