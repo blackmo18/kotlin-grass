@@ -1,4 +1,5 @@
 package com.vhl.blackmo.grass
+import NullableDataTypesCustomNames
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.vhl.blackmo.grass.data.*
 import com.vhl.blackmo.grass.dsl.grass
@@ -10,7 +11,6 @@ import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
@@ -92,6 +92,20 @@ class DataParserTest: WordSpec() {
                 val actual = parsed.first()
 
                 assertTrue { expected == actual }
+            }
+            "parse null values with custom names"  {
+                val expected0 = NullableDataTypesCustomNames(null, null, null, null, null, null, null)
+                val contents = readTestFile("/primitive-empty.csv")
+                val parser = grass<NullableDataTypesCustomNames>() {
+                    customKeyMap = mapOf(
+                        "short" to "shortCustom", "int" to "intCustom", "long" to "longCustom",
+                        "float" to "floatCustom", "double" to "doubleCustom", "boolean" to "booleanCustom",
+                        "string" to "stringCustom"
+                    )
+                }
+                val parsed = parser.harvest(contents)
+
+                assertTrue { expected0 == parsed.first() }
             }
         }
 

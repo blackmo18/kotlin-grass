@@ -18,16 +18,19 @@ actual class DateTimeTypes actual constructor(dateFormat: String, timeFormat: St
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("${dateFormat}${dateTimeSeparator}${timeFormat}")
     private val timeFormatter = DateTimeFormatter.ofPattern(timeFormat)
 
-    actual  val formatDate = fun (value: String): Any {
-        return LocalDate.parse(value, dateFormatter)
+    actual  val formatDate = fun (value: String): Any? = when {
+        value.isNotBlank() -> LocalDate.parse(value, dateFormatter)
+        else -> null
     }
 
-    actual val formatDateTime = fun (value: String): Any {
-        return LocalDateTime.parse(value, dateTimeFormatter)
+    actual val formatDateTime = fun (value: String): Any? = when {
+        value.isNotBlank() -> LocalDateTime.parse(value, dateTimeFormatter)
+        else -> null
     }
 
-    actual  val formatTime = fun(value: String): Any {
-        return LocalTime.parse(value, timeFormatter)
+    actual  val formatTime = fun(value: String): Any? = when {
+        value.isNotBlank() -> LocalTime.parse(value, timeFormatter)
+        else -> null
     }
 
     actual val mapTypes = mapOf(

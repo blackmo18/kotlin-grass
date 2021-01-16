@@ -51,9 +51,9 @@
 #### Gradle DSL:
 ```kotlin
 //doyaaaaaken's kotlin-csv
-implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.11.0")
+implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
 //kotlin-grass
-implementation("com.vhl.blackmo:kotlin-grass-jvm:0.4.1")
+implementation("com.vhl.blackmo:kotlin-grass-jvm:0.5.0")
 ```
 
 #### Prior to Kotlin 1.4.0

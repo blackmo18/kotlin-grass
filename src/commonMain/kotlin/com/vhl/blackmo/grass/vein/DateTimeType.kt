@@ -9,9 +9,9 @@ import kotlin.reflect.KType
  * @param timeFormat  Time Format eg. "HH:mm:ss"
  */
 expect class DateTimeTypes(dateFormat: String, timeFormat: String, dateTimeSeparator: String) {
-    val formatDate: (String) -> Any
-    val formatDateTime: (String) -> Any
-    val formatTime: (String) -> Any
+    val formatDate: (String) -> Any?
+    val formatDateTime: (String) -> Any?
+    val formatTime: (String) -> Any?
 
-    val mapTypes: Map<KType, (String) -> Any>
+    val mapTypes: Map<KType, (String) -> Any?>
 }

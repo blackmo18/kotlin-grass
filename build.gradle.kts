@@ -8,10 +8,10 @@ plugins {
 }
 
 val kotlinVersion = "1.4.0"
-val csvVersion = "0.11.0"
+val csvVersion = "0.15.0"
 
 group = "com.vhl.blackmo"
-version = "0.4.1"
+version = "0.5.0"
 
 repositories {
     jcenter()
