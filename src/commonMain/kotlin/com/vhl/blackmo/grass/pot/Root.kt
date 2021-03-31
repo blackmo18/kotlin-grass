@@ -9,6 +9,7 @@ import kotlin.reflect.*
  * Abstract **class** Conversion Engine of csv contents to **data** class definition
  * @param type data **class** definition
  * @param trim removes white spaces defined within csv column entry
+ * @param ignoreUnknownFields ignores unknown fields
  * @param receivedKeyMap custom user defined key mapping values
  * @author blackmo18
  */
@@ -16,6 +17,7 @@ import kotlin.reflect.*
 open class Root<out T>(
         val type: KClass<*>,
         private val trim: Boolean,
+        private val ignoreUnknownFields: Boolean,
         val receivedKeyMap: Map<String, String>?
 ) {
     /**
@@ -42,7 +44,9 @@ open class Root<out T>(
     protected fun createObject( row: Map<String, String>): Array<Any?> {
 
         val actualParams = Array<Any?>(paramNTypes.size){}
-        validateNumberOfFields(row.keys.size, paramNTypes.size)
+        if (!ignoreUnknownFields) {
+            validateNumberOfFields(row.keys.size, paramNTypes.size)
+        }
 
         row.forEach { mapRow ->
             val key = mapRow.key.trim()
@@ -67,7 +71,9 @@ open class Root<out T>(
                             return@forEach
                         }
                     }
-                    throw MissMatchedFieldNameException(mapRow.key)
+                    if (!ignoreUnknownFields) {
+                        throw MissMatchedFieldNameException(mapRow.key)
+                    }
                 }
             }
         }

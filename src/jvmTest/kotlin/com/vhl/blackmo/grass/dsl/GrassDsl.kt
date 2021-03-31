@@ -24,5 +24,6 @@ class GrassDsl: StringSpec({
         grass.ctx.dateFormat shouldBe  "MM-dd-yyyy"
         grass.ctx.dateTimeSeparator shouldBe  "-"
         grass.ctx.trimWhiteSpace shouldBe  false
+        grass.ctx.ignoreUnknownFields shouldBe true
     }
 })
