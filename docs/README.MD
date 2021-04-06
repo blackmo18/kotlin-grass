@@ -107,6 +107,7 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
 | timeFormat | `HH:mm` | time format |
 | dateTimeSeparator | `(space)` | date time separator |
 | trimWhiteSpace | `true` | trims white spaces on csv entries |
+| ignoreUnknownFields | `false` | ignore unknown / unmaped fields in input |
 | customKeyMap | `null` |`Map<String,String>` custom key mapping  |
 
 # Java Date Time API Support

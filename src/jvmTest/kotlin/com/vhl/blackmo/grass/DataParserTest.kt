@@ -33,6 +33,19 @@ class DataParserTest: WordSpec() {
                 assertTrue { expected == actual }
             }
 
+            "parse to primitive data type with unmapped field" {
+                val expected =
+                    PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val contents = readTestFile("/primitive-with-unmapped-field.csv").asSequence()
+                val grass = grass<PrimitiveTypes>() {
+                    ignoreUnknownFields = true
+                }
+                val parsed = grass.harvest(contents)
+                val actual = parsed.first()
+
+                assertTrue { expected == actual }
+            }
+
             "parse data as list" {
                 val expected =
                     PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")

@@ -34,6 +34,11 @@ class GrassParserContext : GrassParserCtx {
     override var trimWhiteSpace: Boolean = true
 
     /**
+     * ignore unknown (unmapped) fields in input
+     */
+    override var ignoreUnknownFields: Boolean = false
+
+    /**
      * custom key mapping from csv header to **data class** field name
      */
     override var customKeyMap: Map<String, String>? = null
