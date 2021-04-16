@@ -10,15 +10,13 @@ import kotlin.reflect.*
  * @param type data **class** definition
  * @param trim removes white spaces defined within csv column entry
  * @param ignoreUnknownFields ignores unknown fields
- * @param receivedKeyMap custom user defined key mapping values
  * @author blackmo18
  */
 @ExperimentalStdlibApi
 open class Root<out T>(
         val type: KClass<*>,
         private val trim: Boolean,
-        private val ignoreUnknownFields: Boolean,
-        val receivedKeyMap: Map<String, String>?
+        private val ignoreUnknownFields: Boolean
 ) {
     /**
      * Key-value pair containing the expression on converting from data class property name

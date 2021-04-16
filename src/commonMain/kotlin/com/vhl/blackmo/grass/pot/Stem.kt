@@ -1,6 +1,8 @@
 package com.vhl.blackmo.grass.pot
 
+import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
 /**
  * Implementation **class** of [Root] Conversion Engine from csv contents to **data class** definition
@@ -15,8 +17,10 @@ expect open class Stem<out T> actual  constructor(
         type: KClass<*>,
         trim: Boolean,
         ignoreUnknownFields: Boolean,
-        receivedKeyMap: Map<String, String>?
+        receivedKeyMap: Map<String, String>?,
+        receivedKeyMapDataProperty: Map<String, KProperty<*>>?
 ): Root<T> {
     fun harvestData(seed: Sequence<Map<String, String>>): Sequence<T>
     fun harvestData(seed: List<Map<String, String>>): List<T>
+    suspend fun harvestData(seed: Flow<Map<String, String>>): Flow<T>
 }

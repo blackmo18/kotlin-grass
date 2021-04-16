@@ -7,6 +7,8 @@ import io.kotlintest.TestCase
 import io.kotlintest.TestResult
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
 import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -53,6 +55,17 @@ class DataParserTest: WordSpec() {
                 val parsed = grass<PrimitiveTypes>().harvest(contents)
                 val actual = parsed.first()
 
+                assertTrue { expected == actual }
+            }
+
+            "parse data as flow" {
+                val expected =
+                    PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val contents = openFileAsStream("/primitive.csv")
+                val actual = csvReader().openAsync(contents) {
+                    val data = readAllWithHeaderAsSequence().asFlow()
+                    grass<PrimitiveTypes>().harvest(data).first()
+                }
                 assertTrue { expected == actual }
             }
 
@@ -109,11 +122,26 @@ class DataParserTest: WordSpec() {
             "parse null values with custom names"  {
                 val expected0 = NullableDataTypesCustomNames(null, null, null, null, null, null, null)
                 val contents = readTestFile("/primitive-empty.csv")
-                val parser = grass<NullableDataTypesCustomNames>() {
+                val parser = grass<NullableDataTypesCustomNames> {
                     customKeyMap = mapOf(
                         "short" to "shortCustom", "int" to "intCustom", "long" to "longCustom",
                         "float" to "floatCustom", "double" to "doubleCustom", "boolean" to "booleanCustom",
                         "string" to "stringCustom"
+                    )
+                }
+                val parsed = parser.harvest(contents)
+
+                assertTrue { expected0 == parsed.first() }
+            }
+            "parse null values with custom names using data class property"  {
+
+                val expected0 = NullableDataTypesCustomNames(null, null, null, null, null, null, null)
+                val contents = readTestFile("/primitive-empty.csv")
+                val parser = grass<NullableDataTypesCustomNames> {
+                    customKeyMapDataProperty = mapOf(
+                        "short" to NullableDataTypesCustomNames::shortCustom, "int" to NullableDataTypesCustomNames::intCustom, "long" to NullableDataTypesCustomNames::longCustom,
+                        "float" to NullableDataTypesCustomNames::floatCustom, "double" to NullableDataTypesCustomNames::doubleCustom, "boolean" to NullableDataTypesCustomNames::booleanCustom,
+                        "string" to NullableDataTypesCustomNames::stringCustom
                     )
                 }
                 val parsed = parser.harvest(contents)
@@ -176,5 +204,7 @@ fun readTestFile(fileName: String): List<Map<String, String>> {
     val file =  File("src/jvmTest/resources/$fileName")
     return csvReader().readAllWithHeader(file)
 }
+
+fun openFileAsStream(fileName: String) = File("src/jvmTest/resources/$fileName").inputStream()
 
 
