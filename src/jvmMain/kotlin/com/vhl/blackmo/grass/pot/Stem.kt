@@ -46,7 +46,7 @@ actual open class Stem<out T> actual constructor(
         val constructor = type.constructors.first()
         return seed.map { entry ->
             val params = createObject(entry)
-            (constructor.call(*params)) as T
+            constructor.call(*params) as T
         }
     }
 
@@ -55,7 +55,7 @@ actual open class Stem<out T> actual constructor(
         val constructor = type.constructors.first()
         return seed.map { entry ->
             val params = createObject(entry)
-            (constructor.call(*params)) as T
+            constructor.call(*params) as T
         }
     }
 
