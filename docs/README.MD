@@ -100,6 +100,15 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
     val dataClasses = grass<PrimitiveTypes>().harvest(csvContents)
 ```
 
+#### Parsing  to data class using Kotlin Flow
+```kotlin
+    val contents = File("file/path").inputStream()
+    val dataClasses: Flow<PrimitiveTypes> = csvReader().openAsync(contents) {
+        val data = readAllWithHeaderAsSequence().asFlow()
+        grass<PrimitiveTypes>().harvest(data)
+    }
+```
+
 # Custom Configuration
 | Option | default value | description                         |
 |------------|---------------|-------------------------------------|
@@ -107,8 +116,9 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
 | timeFormat | `HH:mm` | time format |
 | dateTimeSeparator | `(space)` | date time separator |
 | trimWhiteSpace | `true` | trims white spaces on csv entries |
-| ignoreUnknownFields | `false` | ignore unknown / unmaped fields in input |
-| customKeyMap | `null` |`Map<String,String>` custom key mapping  |
+| ignoreUnknownFields | `false` | ignore unknown / unmapped fields in input |
+| customKeyMap | `null` |`Map<String,String>` custom key mapping, priority if not empty or null  |
+| customKeyMapDataProperty | `null` |`Map<String, KProperty<*>>` custom key mapping  |
 
 # Java Date Time API Support
 #### csv file
@@ -147,6 +157,12 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
 
     val grass = grass<DateTimeTypes> {
         customKeyMap = mapOf("hour" to "time", "birthdate" to "date")
+    }
+
+    // or
+
+    val grass = grass<DateTimeTypes> {
+        customKeyMapDataProperty = mapOf("hour" to DateTime::time, "birthdate" to DateTime::date)
     }
 ```
 

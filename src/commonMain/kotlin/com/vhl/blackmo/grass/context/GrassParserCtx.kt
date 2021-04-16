@@ -1,5 +1,7 @@
 package com.vhl.blackmo.grass.context
 
+import kotlin.reflect.KProperty
+
 /**
  * Interface Customization Configuration Context
  *  * date formatting
@@ -15,4 +17,5 @@ interface GrassParserCtx {
     val trimWhiteSpace: Boolean
     var ignoreUnknownFields: Boolean
     val customKeyMap: Map<String, String>?
+    val customKeyMapDataProperty: Map<String, KProperty<*>>?
 }

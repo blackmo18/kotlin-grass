@@ -2,6 +2,7 @@ package com.vhl.blackmo.grass.pot
 
 import com.vhl.blackmo.grass.context.GrassParserContext
 import com.vhl.blackmo.grass.vein.DateTimeTypes
+import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 
@@ -13,7 +14,7 @@ import kotlin.reflect.KType
  */
 @ExperimentalStdlibApi
 actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KClass<*>)
-    : Stem<T>(type, ctx.trimWhiteSpace, ctx.ignoreUnknownFields, ctx.customKeyMap) {
+    : Stem<T>(type, ctx.trimWhiteSpace, ctx.ignoreUnknownFields, ctx.customKeyMap, ctx.customKeyMapDataProperty) {
 
     actual val dateTimeTypes = DateTimeTypes(ctx.dateFormat, ctx.timeFormat, ctx.dateTimeSeparator)
 
@@ -33,6 +34,10 @@ actual class Plant<T> actual constructor(val ctx: GrassParserContext, type: KCla
      * @return [Sequence&lt;T&gt;] where T is the target data class
      */
     actual fun harvest(seed: Sequence<Map<String, String>>): Sequence<T> {
+        return harvestData(seed)
+    }
+
+    actual suspend fun harvest(seed: Flow<Map<String, String>>): Flow<T> {
         return harvestData(seed)
     }
 }

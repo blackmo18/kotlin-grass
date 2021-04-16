@@ -1,3 +1,9 @@
+# 0.6.0
+Added Feature and Enhancement
+ - ignore unknown/unmapped fields
+ - custom mapping from Data class properties
+ - process grass using kotlin flow
+ 
 # 0.5.0
  - fixed bug parsing empty string into nullable values for custom names, issue #12
     - thanks to [Winterhate](https://github.com/winterhate) for creating a test

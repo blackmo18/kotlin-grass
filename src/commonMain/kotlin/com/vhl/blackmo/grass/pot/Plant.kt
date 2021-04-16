@@ -2,6 +2,7 @@ package com.vhl.blackmo.grass.pot
 
 import com.vhl.blackmo.grass.context.GrassParserContext
 import com.vhl.blackmo.grass.vein.DateTimeTypes
+import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KClass
 
 /**
@@ -22,4 +23,6 @@ import kotlin.reflect.KClass
     * @return [Sequence&lt;T&gt;] where T is the target data class
     */
    fun harvest(seed: Sequence<Map<String, String>>): Sequence<T>
+
+   suspend fun harvest(seed: Flow<Map<String, String>>): Flow<T>
 }

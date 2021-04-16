@@ -1,6 +1,11 @@
 package com.vhl.blackmo.grass.pot
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
 /**
  * Implementation **class** of [Root] Conversion Engine from csv contents to **data class** definition
@@ -16,8 +21,9 @@ actual open class Stem<out T> actual constructor(
         type: KClass<*>,
         trim: Boolean,
         ignoreUnknownFields: Boolean,
-        receivedKeyMap: Map<String, String>?
-): Root<T>(type, trim, ignoreUnknownFields, receivedKeyMap) {
+        private val receivedKeyMap: Map<String, String>?,
+        private val receivedKeyMapDataProperty: Map<String, KProperty<*>>?
+): Root<T>(type, trim, ignoreUnknownFields) {
     /**
      * @return converted sequence of data [T]
      */
@@ -38,20 +44,32 @@ actual open class Stem<out T> actual constructor(
     actual fun harvestData(seed: List<Map<String, String>>): List<T> {
         initOnMethod()
         val constructor = type.constructors.first()
-        val listObject = mutableListOf<T>()
-        seed.forEach { entry ->
+        return seed.map { entry ->
             val params = createObject(entry)
-            val obj = constructor.call(*params)
-            listObject.add(obj as T)
+            constructor.call(*params) as T
         }
-        return listObject
+    }
+
+    actual suspend fun harvestData(seed: Flow<Map<String, String>>): Flow<T> {
+        initOnMethod()
+        val constructor = type.constructors.first()
+        return seed.map { entry ->
+            val params = createObject(entry)
+            constructor.call(*params) as T
+        }
     }
 
     private fun initOnMethod() {
         type.constructors.first().parameters.forEach { kParam ->
             paramNTypes[kParam.name] = getType(kParam.type) as ((String) -> Any)?
             paramNIndex[kParam.name] = kParam.index
-            receivedKeyMap?.let { customKeyMap.putAll(it) }
+            if (!receivedKeyMap.isNullOrEmpty()) {
+                receivedKeyMap.let { customKeyMap.putAll(it) }
+            } else {
+                receivedKeyMapDataProperty?.forEach {
+                    customKeyMap[it.key] = it.value.name
+                }
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.vhl.blackmo.grass.context
 
+import kotlin.reflect.KProperty
+
 /**
  * Customization Configuration Context
  *  * date formatting
@@ -42,4 +44,6 @@ class GrassParserContext : GrassParserCtx {
      * custom key mapping from csv header to **data class** field name
      */
     override var customKeyMap: Map<String, String>? = null
+
+    override var customKeyMapDataProperty: Map<String, KProperty<*>>? = null
 }

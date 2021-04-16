@@ -7,14 +7,15 @@ plugins {
     jacoco
 }
 
-val kotlinVersion = "1.4.0"
-val csvVersion = "0.15.0"
+val kotlinVersion = "1.4.32"
+val csvVersion = "0.15.1"
+val coroutineVersion = "1.4.3"
 
 group = "com.vhl.blackmo"
-version = "0.5.0"
+version = "0.6.0"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 val dokkaJar = task<Jar>("dokkaJar") {
@@ -50,6 +51,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
             }
         }
         val commonTest by getting {
