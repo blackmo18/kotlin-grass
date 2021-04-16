@@ -11,7 +11,7 @@ import kotlin.reflect.KProperty
  *  * custom key mapping
  * @author blackmo18
  */
-class GrassParserContext : com.github.blackmo.grass.context.GrassParserCtx {
+class GrassParserContext : GrassParserCtx {
     /**
      *  date formatting
      *  default value: **yyyy-MM-dd**
