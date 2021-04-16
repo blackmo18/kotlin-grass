@@ -112,7 +112,7 @@ tasks.jacocoTestReport {
             .filterNot {
                 val fileNamePath = it.absolutePath
                 val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
-                dir.contains("com/github/blackmo/grass/data")
+                dir.contains("io/github/blackmo18/grass/data")
             }
 
     classDirectories.setFrom(classFiles)
