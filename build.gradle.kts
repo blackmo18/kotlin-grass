@@ -1,18 +1,27 @@
 plugins {
-    kotlin("multiplatform") version "1.4.0"
-    id("maven-publish")
+    java
+    kotlin("multiplatform") version "1.4.32"
     id("org.jetbrains.dokka").version("0.9.18")
-    id("com.jfrog.bintray") version "1.8.5"
-    id("java-library")
+    `maven-publish`
+    signing
     jacoco
 }
 
 val kotlinVersion = "1.4.32"
-val csvVersion = "0.15.1"
+val csvVersion = "0.15.2"
 val coroutineVersion = "1.4.3"
 
-group = "com.vhl.blackmo"
+group = "io.github.blackmo18"
 version = "0.6.0"
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.9.18")
+    }
+}
 
 repositories {
     mavenCentral()
@@ -43,6 +52,9 @@ kotlin {
                 jvmTarget = "1.8"
                 noReflect = false
             }
+        }
+        mavenPublication {
+            artifact(dokkaJar)
         }
     }
 
@@ -76,20 +88,57 @@ kotlin {
     }
 }
 
-val bintrayUser = (project.findProperty("bintray.user") ?: "").toString()
-val bintrayKey = (project.findProperty("bintray.apikey")?: "").toString()
+
 
 publishing {
-    repositories {
-        maven(url = "https://api.bintray.com/maven/blackmo18/kotlin-libraries/kotlin-grass/;publish=1") {
-            name = "bintray"
-            credentials {
-                username = bintrayUser
-                password = bintrayKey
+    publications.all {
+        (this as MavenPublication).pom {
+            name.set("kotlin-grass")
+            description.set("Csv File to Kotlin Data Class Parser")
+            url.set("https://github.com/blackmo18/kotlin-grass")
+
+            organization {
+                name.set("io.github.blackmo18")
+                url.set("https://github.com/blackmo18")
+            }
+            licenses {
+                license {
+                    name.set("Apache License 2.0")
+                    url.set("https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE")
+                }
+            }
+            scm {
+                url.set("https://github.com/blackmo18/kotlin-grass")
+                connection.set("scm:git:git://github.com/blackmo18/kotlin-grass.git")
+                developerConnection.set("https://github.com/blackmo18/kotlin-grass")
+            }
+            developers {
+                developer {
+                    name.set("blackmo18")
+                }
             }
         }
     }
+    repositories {
+        maven {
+            credentials {
+                val nexusUsername: String? by project
+                val nexusPassword: String? by project
+                username = nexusUsername
+                password = nexusPassword
+            }
+
+            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+        }
+    }
 }
+
+signing {
+    sign(publishing.publications)
+}
+
 
 val jvmTest by tasks.getting(Test::class) {
     useJUnitPlatform { }
@@ -118,7 +167,6 @@ tasks.jacocoTestReport {
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
     additionalSourceDirs.setFrom(files(coverageSourceDirs))
-
 
     executionData
             .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
