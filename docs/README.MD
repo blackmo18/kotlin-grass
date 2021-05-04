@@ -121,6 +121,7 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
 | dateTimeSeparator | `(space)` | date time separator |
 | trimWhiteSpace | `true` | trims white spaces on csv entries |
 | ignoreUnknownFields | `false` | ignore unknown / unmapped fields in input |
+| caseSensitive | `true` | case sensitive header matching |
 | customKeyMap | `null` |`Map<String,String>` custom key mapping, priority if not empty or null  |
 | customKeyMapDataProperty | `null` |`Map<String, KProperty<*>>` custom key mapping  |
 

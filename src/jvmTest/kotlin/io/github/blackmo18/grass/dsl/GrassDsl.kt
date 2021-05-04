@@ -20,11 +20,13 @@ class GrassDsl: StringSpec({
             trimWhiteSpace = false
             dateTimeSeparator = "-"
             ignoreUnknownFields = true
+            caseSensitve = false
         }
         grass.ctx.timeFormat shouldBe  "HH-mm-ss"
         grass.ctx.dateFormat shouldBe  "MM-dd-yyyy"
         grass.ctx.dateTimeSeparator shouldBe  "-"
         grass.ctx.trimWhiteSpace shouldBe  false
         grass.ctx.ignoreUnknownFields shouldBe true
+        grass.ctx.caseSensitve shouldBe false
     }
 })

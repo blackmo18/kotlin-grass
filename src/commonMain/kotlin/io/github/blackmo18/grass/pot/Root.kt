@@ -10,13 +10,15 @@ import kotlin.reflect.*
  * @param type data **class** definition
  * @param trim removes white spaces defined within csv column entry
  * @param ignoreUnknownFields ignores unknown fields
+ * @param caseSensitive case sensitive header matching
  * @author blackmo18
  */
 @ExperimentalStdlibApi
 open class Root<out T>(
         val type: KClass<*>,
         private val trim: Boolean,
-        private val ignoreUnknownFields: Boolean
+        private val ignoreUnknownFields: Boolean,
+        private val caseSensitive: Boolean
 ) {
     /**
      * Key-value pair containing the expression on converting from data class property name
@@ -47,7 +49,7 @@ open class Root<out T>(
         }
 
         row.forEach { mapRow ->
-            val key = mapRow.key.trim()
+            val key = mapRow.key.caseSensitive(caseSensitive).trim()
             val value = mapRow.value.trimOrNot(trim)
             val hasKey = paramNTypes.containsKey(key)
             when {
@@ -60,7 +62,7 @@ open class Root<out T>(
                     actualParams[index] = null
                 }
                 else -> {
-                    if (customKeyMap.isNotEmpty() && customKeyMap.containsKey(key)) {
+                    if (customKeyMap.containsKey(key)) {
                         val mappedKey = customKeyMap[key]?.trim()
                         if(paramNTypes.containsKey(mappedKey)) {
                             customKeyMap.remove(mappedKey)
@@ -76,6 +78,11 @@ open class Root<out T>(
             }
         }
         return actualParams
+    }
+
+    private fun String.caseSensitive(boolean: Boolean) : String = when {
+       !boolean -> this.toUpperCase()
+        else -> this
     }
 
     private fun String.trimOrNot(boolean: Boolean): String = when {

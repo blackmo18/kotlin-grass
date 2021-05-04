@@ -41,9 +41,17 @@ class GrassParserContext : GrassParserCtx {
     override var ignoreUnknownFields: Boolean = false
 
     /**
+     * header case sensitive
+     */
+    override var caseSensitve: Boolean = true
+
+    /**
      * custom key mapping from csv header to **data class** field name
      */
     override var customKeyMap: Map<String, String>? = null
 
+    /**
+     * custom key mapping from csv header to **data class** property name
+     */
     override var customKeyMapDataProperty: Map<String, KProperty<*>>? = null
 }

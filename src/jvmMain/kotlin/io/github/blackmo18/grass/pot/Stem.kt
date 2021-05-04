@@ -9,6 +9,7 @@ import kotlin.reflect.KProperty
  * Implementation **class** of [Root] Conversion Engine from csv contents to **data class** definition
  * @param type data **class** definition
  * @param trim removes white spaces defined within csv column entry
+ * @param caseSensitive case sensitive header matching
  * @param ignoreUnknownFields ignores unknown fields
  * @param receivedKeyMap custom user defined key mapping values
  * @author blackmo18
@@ -19,9 +20,10 @@ actual open class Stem<out T> actual constructor(
         type: KClass<*>,
         trim: Boolean,
         ignoreUnknownFields: Boolean,
+        private val caseSensitive: Boolean,
         private val receivedKeyMap: Map<String, String>?,
         private val receivedKeyMapDataProperty: Map<String, KProperty<*>>?
-): Root<T>(type, trim, ignoreUnknownFields) {
+): Root<T>(type, trim, ignoreUnknownFields, caseSensitive) {
     /**
      * @return converted sequence of data [T]
      */
@@ -58,14 +60,42 @@ actual open class Stem<out T> actual constructor(
     }
 
     private fun initOnMethod() {
+        if (caseSensitive) {
+            onCaseSensitive()
+        } else {
+            onNotCaseSensitive()
+        }
+    }
+
+    private fun onCaseSensitive() {
         type.constructors.first().parameters.forEach { kParam ->
             paramNTypes[kParam.name] = getType(kParam.type) as ((String) -> Any)?
             paramNIndex[kParam.name] = kParam.index
             if (!receivedKeyMap.isNullOrEmpty()) {
-                receivedKeyMap.let { customKeyMap.putAll(it) }
+                receivedKeyMap.let { pair ->
+                    customKeyMap.putAll(pair)
+                }
             } else {
                 receivedKeyMapDataProperty?.forEach {
                     customKeyMap[it.key] = it.value.name
+                }
+            }
+        }
+    }
+
+    private fun onNotCaseSensitive() {
+        type.constructors.first().parameters.forEach { kParam ->
+            paramNTypes[kParam.name?.toUpperCase()] = getType(kParam.type) as ((String) -> Any)?
+            paramNIndex[kParam.name?.toUpperCase()] = kParam.index
+            if (!receivedKeyMap.isNullOrEmpty()) {
+                receivedKeyMap.let { pair ->
+                    pair.forEach { (key, value) ->
+                        customKeyMap[key.toUpperCase()] = value.toUpperCase()
+                    }
+                }
+            } else {
+                receivedKeyMapDataProperty?.forEach {
+                    customKeyMap[it.key.toUpperCase()] = it.value.name.toUpperCase()
                 }
             }
         }
