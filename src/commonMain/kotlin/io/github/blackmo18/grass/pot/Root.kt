@@ -72,7 +72,7 @@ open class Root<out T>(
                         }
                     }
                     if (!ignoreUnknownFields) {
-                        throw MissMatchedFieldNameException(mapRow.key.caseSensitive(caseSensitive))
+                        throw MissMatchedFieldNameException(mapRow.key)
                     }
                 }
             }
@@ -80,12 +80,12 @@ open class Root<out T>(
         return actualParams
     }
 
-    private inline fun String.caseSensitive(boolean: Boolean) : String = when {
+    private fun String.caseSensitive(boolean: Boolean) : String = when {
        !boolean -> this.toUpperCase()
         else -> this
     }
 
-    private inline fun String.trimOrNot(boolean: Boolean): String = when {
+    private fun String.trimOrNot(boolean: Boolean): String = when {
         boolean -> this.trim()
         else -> this
     }
