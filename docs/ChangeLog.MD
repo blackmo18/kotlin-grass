@@ -1,6 +1,10 @@
+# 0.7.1
+Remove unused lines in JVM Date Parser
+
 # 0.7.0
 Added Feature
- - case sensitive flag
+ - case sensitive flag #11
+
 # 0.6.0
 Added Feature and Enhancement
  - ignore unknown/unmapped fields
