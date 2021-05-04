@@ -1,3 +1,6 @@
+# 0.7.0
+Added Feature
+ - case sensitive flag
 # 0.6.0
 Added Feature and Enhancement
  - ignore unknown/unmapped fields

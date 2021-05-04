@@ -3,8 +3,6 @@ package io.github.blackmo18.grass
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import io.github.blackmo18.grass.data.*
 import io.github.blackmo18.grass.dsl.grass
-import io.kotlintest.TestCase
-import io.kotlintest.TestResult
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 import kotlinx.coroutines.flow.asFlow
@@ -20,9 +18,6 @@ import kotlin.test.assertTrue
  */
 @ExperimentalStdlibApi
 class DataParserTest: WordSpec() {
-    override fun afterTest(testCase: TestCase, result: TestResult) {
-        super.afterTest(testCase, result)
-    }
     init {
         "Parse into Data Class" should {
             "parse to primitive data type" {
@@ -134,8 +129,7 @@ class DataParserTest: WordSpec() {
                 assertTrue { expected0 == parsed.first() }
             }
             "parse null values with custom names using data class property"  {
-
-                val expected0 = NullableDataTypesCustomNames(null, null, null, null, null, null, null)
+                val expected = NullableDataTypesCustomNames(null, null, null, null, null, null, null)
                 val contents = readTestFile("/primitive-empty.csv")
                 val parser = grass<NullableDataTypesCustomNames> {
                     customKeyMapDataProperty = mapOf(
@@ -146,10 +140,9 @@ class DataParserTest: WordSpec() {
                 }
                 val parsed = parser.harvest(contents)
 
-                assertTrue { expected0 == parsed.first() }
+                assertTrue { expected == parsed.first() }
             }
         }
-
 
         "parse java date and time" should {
             "parse default time and date format" {
@@ -193,8 +186,41 @@ class DataParserTest: WordSpec() {
                     customKeyMap = mapOf("longX" to "long", "floatX" to "float")
                 }.harvest(contents)
                 val actual = parsed.first()
-
                 assertTrue { actual == expected }
+            }
+            "parse not case sensitive keys" {
+                val expected = PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val contents = readTestFile("/primitive-uppercase.csv").asSequence()
+                val parsed = grass<PrimitiveTypes>{
+                    caseSensitve = false
+                }.harvest(contents)
+                val actual = parsed.first()
+                assertTrue { actual == expected }
+            }
+            "parse not case sensitive with custom key mapping default" {
+                val expected = PrimitiveTypes(0, 1, 2, 3.0f, 4.0, true, "hello")
+                val contents = readTestFile("/primitive-missmatched.csv").asSequence()
+                val parsed = grass<PrimitiveTypes>{
+                    customKeyMap = mapOf("LONGX" to "LONG", "floatX" to "float")
+                    caseSensitve = false
+                }.harvest(contents)
+                val actual = parsed.first()
+                assertTrue { actual == expected }
+            }
+            "parse not case sensitive with custom key map data class property" {
+                val expected = NullableDataTypesCustomNames(null, null, null, null, null, null, null)
+                val contents = readTestFile("/primitive-empty.csv")
+                val parser = grass<NullableDataTypesCustomNames> {
+                    customKeyMapDataProperty = mapOf(
+                        "SHORT" to NullableDataTypesCustomNames::shortCustom, "int" to NullableDataTypesCustomNames::intCustom, "LONG" to NullableDataTypesCustomNames::longCustom,
+                        "float" to NullableDataTypesCustomNames::floatCustom, "double" to NullableDataTypesCustomNames::doubleCustom, "BOOLEAN" to NullableDataTypesCustomNames::booleanCustom,
+                        "STRING" to NullableDataTypesCustomNames::stringCustom
+                    )
+                    caseSensitve = false
+                }
+                val parsed = parser.harvest(contents)
+
+                assertTrue { expected == parsed.first() }
             }
         }
     }

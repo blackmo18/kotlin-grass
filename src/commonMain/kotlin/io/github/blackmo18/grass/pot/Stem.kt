@@ -17,6 +17,7 @@ expect open class Stem<out T> actual  constructor(
         type: KClass<*>,
         trim: Boolean,
         ignoreUnknownFields: Boolean,
+        caseSensitive: Boolean,
         receivedKeyMap: Map<String, String>?,
         receivedKeyMapDataProperty: Map<String, KProperty<*>>?
 ): Root<T> {
