@@ -12,7 +12,7 @@ val csvVersion = "0.15.2"
 val coroutineVersion = "1.4.3"
 
 group = "io.github.blackmo18"
-version = "0.6.0"
+version = "0.7.1"
 
 buildscript {
     repositories {

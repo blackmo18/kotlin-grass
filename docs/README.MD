@@ -1,8 +1,8 @@
 <img src="./logo.png" alt="Kotlin-Grass"/>
 <p>
   <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-1.4.32-teal.svg?logo=kotlin" />
-  <a href="https://repo1.maven.org/maven2/io/github/blackmo18/kotlin-grass-jvm/0.6.0"/>
-    <img alt="Latest: 0.6.0" src="https://img.shields.io/badge/Latest-0.6.0-blue.svg" target="_blank" />
+  <a href="/>https://repo1.maven.org/maven2/io/github/blackmo18/kotlin-grass-jvm/0.7.1/">
+    <img alt="Latest: 0.7.1" src="https://img.shields.io/badge/Latest-0.7.1-blue.svg" target="_blank" />
     </a>
   <a href="https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE">
     <img alt="License: Apache License 2.0" src="https://img.shields.io/badge/License-Apache License 2.0-orange.svg" target="_blank" />
@@ -66,7 +66,7 @@ implementation("io.github.blackmo18:kotlin-grass-jvm:0.6.0")
 <dependency>
     <groupId>io.github.blackmo18</groupId>
     <artifactId>kotlin-grass-jvm</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.1</version>
 </dependency>
 ```
 
