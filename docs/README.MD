@@ -53,7 +53,7 @@
 //doyaaaaaken's kotlin-csv
 implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
 //kotlin-grass
-implementation("io.github.blackmo18:kotlin-grass-jvm:0.6.0")
+implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
 ```
 
 #### Maven:
