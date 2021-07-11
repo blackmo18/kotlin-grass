@@ -1,5 +1,5 @@
 rootProject.name = "kotlin-grass"
 
-include(":core")
-include(":parser")
-include(":java8-datetime")
+include(":kotlin-grass-core")
+include(":kotlin-grass-parser")
+include(":kotlin-grass-date-time")

@@ -17,8 +17,8 @@
    c.  Add the mapping into the `mapTypes` including the null value
  
 ```kotlin
- object Java8DateTime: DataTypes {
-   
+ object Java8DateTime: DateTimeTypes() {
+   // for this example DateTimeTypes extends DataTypes
    // transforms functions
    override val formatDate = fun (value: String): Any? {
       val dateFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.dateFormat)

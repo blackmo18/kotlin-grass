@@ -1,7 +1,7 @@
 plugins {
     java
-    kotlin("multiplatform") version "1.4.32"
-    id("org.jetbrains.dokka").version("0.9.18")
+    kotlin("multiplatform")
+    id("org.jetbrains.dokka")
     `maven-publish`
     signing
     jacoco
@@ -61,6 +61,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":kotlin-grass-core"))
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
@@ -150,26 +151,26 @@ jacoco {
 
 tasks.jacocoTestReport {
     val coverageSourceDirs = arrayOf(
-            "src/commonMain",
-            "src/jvmMain"
+        "kotlin-grass-parser/src/commonMain",
+        "kotlin-grass-parser/src/jvmMain"
     )
 
-    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
-            .walkBottomUp()
-            .toSet()
-            .filter { it.isFile }
-            .filterNot {
-                val fileNamePath = it.absolutePath
-                val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
-                dir.contains("io/github/blackmo18/grass/data")
-            }
+    val classFiles = File("${projectDir}/kotlin-grass-parser/build/classes/kotlin/jvm/")
+        .walkBottomUp()
+        .toSet()
+        .filter { it.isFile }
+        .filterNot {
+            val fileNamePath = it.absolutePath
+            val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
+            dir.contains("io/github/blackmo18/grass/data")
+        }
 
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
     additionalSourceDirs.setFrom(files(coverageSourceDirs))
 
     executionData
-            .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+        .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
 
     reports {
         xml.isEnabled = true
