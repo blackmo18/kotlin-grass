@@ -1,6 +1,7 @@
 package io.github.blackmo18.grass.dsl
 
-import io.github.blackmo18.grass.pot.Plant
+import com.vhl.blackmo.grass.dsl.grass
+import com.vhl.blackmo.grass.pot.Plant
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
