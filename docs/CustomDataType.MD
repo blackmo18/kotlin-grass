@@ -10,7 +10,9 @@
    
    b. Transform function must take into the form of:  
    
-   `fun fx(value: String): Any`
+   `fun fx(value: String): Any?`
+   
+   where the return is the desired value of data type
 
    c.  Add the mapping into the `mapTypes` including the null value
  
@@ -18,19 +20,19 @@
  object Java8DateTime: DataTypes {
    
    // transforms functions
-   override val formatDate = fun (value: String): Any {
+   override val formatDate = fun (value: String): Any? {
       val dateFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.dateFormat)
       return LocalDate.parse(value, dateFormatter)
    }
 
    // transforms functions
-   override val formatDateTime = fun(value: String): Any {
+   override val formatDateTime = fun(value: String): Any? {
       val dateTimeFormatter = DateTimeFormatter.ofPattern("${DateTimeFormats.dateFormat}${DateTimeFormats.dateTimeSeparator}${DateTimeFormats.timeFormat}")
       return LocalDateTime.parse(value, dateTimeFormatter)
    }
 
    // transforms functions
-   override val formatTime = fun(value: String): Any {
+   override val formatTime = fun(value: String): Any? {
       val timeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.timeFormat)
       return LocalTime.parse(value, timeFormatter)
    }
