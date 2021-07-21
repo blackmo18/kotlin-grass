@@ -1,7 +1,7 @@
 plugins {
     java
-    kotlin("multiplatform") version "1.4.32"
-    id("org.jetbrains.dokka").version("0.9.18")
+    kotlin("multiplatform")
+    id("org.jetbrains.dokka")
     `maven-publish`
     signing
     jacoco
@@ -62,6 +62,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
+                implementation(project(":kotlin-grass-core"))
                 implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
             }
@@ -79,6 +80,7 @@ kotlin {
         jvm().compilations["test"].defaultSourceSet {
             this.
             dependencies {
+                implementation(project(":kotlin-grass-parser"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
@@ -93,8 +95,8 @@ kotlin {
 publishing {
     publications.all {
         (this as MavenPublication).pom {
-            name.set("kotlin-grass")
-            description.set("Csv File to Kotlin Data Class Parser")
+            name.set("kotlin-grass-date-and-time")
+            description.set("Java Date and Time module for Csv File to Kotlin Data Class Parser")
             url.set("https://github.com/blackmo18/kotlin-grass")
 
             organization {
@@ -150,26 +152,26 @@ jacoco {
 
 tasks.jacocoTestReport {
     val coverageSourceDirs = arrayOf(
-            "src/commonMain",
-            "src/jvmMain"
+        "kotlin-grass-date-time/src/commonMain",
+        "kotlin-grass-date-time/src/jvmMain"
     )
 
-    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
-            .walkBottomUp()
-            .toSet()
-            .filter { it.isFile }
-            .filterNot {
-                val fileNamePath = it.absolutePath
-                val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
-                dir.contains("io/github/blackmo18/grass/data")
-            }
+    val classFiles = File("${projectDir}/kotlin-grass-date-time/build/classes/kotlin/jvm/")
+        .walkBottomUp()
+        .toSet()
+        .filter { it.isFile }
+        .filterNot {
+            val fileNamePath = it.absolutePath
+            val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
+            dir.contains("io/github/blackmo18/grass/data")
+        }
 
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
     additionalSourceDirs.setFrom(files(coverageSourceDirs))
 
     executionData
-            .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+        .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
 
     reports {
         xml.isEnabled = true

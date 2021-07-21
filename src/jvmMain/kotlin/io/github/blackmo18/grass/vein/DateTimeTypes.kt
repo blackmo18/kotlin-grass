@@ -25,12 +25,12 @@ actual class DateTimeTypes actual constructor(dateFormat: String, timeFormat: St
     actual  val formatTime = fun(value: String): Any? =  LocalTime.parse(value, timeFormatter)
 
     actual val mapTypes = mapOf(
-            typeOf<LocalDate>()  to formatDate,
-            typeOf<LocalDateTime>() to formatDateTime,
-            typeOf<LocalTime>() to formatTime,
-            //-- nullable types
-            typeOf<LocalDate?>()  to formatDate,
-            typeOf<LocalDateTime?>() to formatDateTime,
-            typeOf<LocalTime?>() to formatTime
+        typeOf<LocalDate>()  to formatDate,
+        typeOf<LocalDateTime>() to formatDateTime,
+        typeOf<LocalTime>() to formatTime,
+        //-- nullable types
+        typeOf<LocalDate?>()  to formatDate,
+        typeOf<LocalDateTime?>() to formatDateTime,
+        typeOf<LocalTime?>() to formatTime
     )
 }

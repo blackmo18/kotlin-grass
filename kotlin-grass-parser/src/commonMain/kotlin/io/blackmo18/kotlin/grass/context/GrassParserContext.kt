@@ -1,4 +1,6 @@
-package io.github.blackmo18.grass.context
+package io.blackmo18.kotlin.grass.context
+
+import io.blackmo18.kotlin.grass.core.DataTypes
 
 import kotlin.reflect.KProperty
 
@@ -54,4 +56,9 @@ class GrassParserContext : GrassParserCtx {
      * custom key mapping from csv header to **data class** property name
      */
     override var customKeyMapDataProperty: Map<String, KProperty<*>>? = null
+
+    /**
+     * custom data types
+     */
+    override var customDataTypes: List<io.blackmo18.kotlin.grass.core.DataTypes>? = null
 }

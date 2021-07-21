@@ -1,5 +1,6 @@
-package io.github.blackmo18.grass.context
+package io.blackmo18.kotlin.grass.context
 
+import io.blackmo18.kotlin.grass.core.datetime.DateTimeCtx
 import kotlin.reflect.KProperty
 
 /**
@@ -8,18 +9,16 @@ import kotlin.reflect.KProperty
  *  * time formatting
  *  * date-time separator
  *  * trim white space
- *  * ignore unknown fields
- *  * case sensitive
  *  * custom key mapping
- *  * custom key mapping class property
  */
-interface GrassParserCtx {
-    val dateFormat: String
-    val timeFormat: String
-    val dateTimeSeparator: String
+interface GrassParserCtx: DateTimeCtx {
+    override val dateFormat: String
+    override val timeFormat: String
+    override val dateTimeSeparator: String
     val trimWhiteSpace: Boolean
     var ignoreUnknownFields: Boolean
     var caseSensitive: Boolean
     val customKeyMap: Map<String, String>?
+    val customDataTypes: List<io.blackmo18.kotlin.grass.core.DataTypes>?
     val customKeyMapDataProperty: Map<String, KProperty<*>>?
 }

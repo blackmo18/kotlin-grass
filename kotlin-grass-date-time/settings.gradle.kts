@@ -1,0 +1,1 @@
+rootProject.name = "kotlin-grass-date-and-time"

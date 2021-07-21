@@ -1,30 +1,20 @@
 plugins {
-    java
-    kotlin("multiplatform") version "1.4.32"
+    kotlin("multiplatform") version "1.4.0"
+    id("maven-publish")
     id("org.jetbrains.dokka").version("0.9.18")
-    `maven-publish`
-    signing
+    id("com.jfrog.bintray") version "1.8.5"
+    id("java-library")
     jacoco
 }
 
-val kotlinVersion = "1.4.32"
-val csvVersion = "0.15.2"
-val coroutineVersion = "1.4.3"
+val kotlinVersion = "1.4.0"
+val csvVersion = "0.11.0"
 
-group = "io.github.blackmo18"
-version = "0.7.1"
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.9.18")
-    }
-}
+group = "com.vhl.blackmo"
+version = "0.4.1"
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 val dokkaJar = task<Jar>("dokkaJar") {
@@ -53,9 +43,6 @@ kotlin {
                 noReflect = false
             }
         }
-        mavenPublication {
-            artifact(dokkaJar)
-        }
     }
 
     sourceSets {
@@ -63,7 +50,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
             }
         }
         val commonTest by getting {
@@ -88,57 +74,20 @@ kotlin {
     }
 }
 
-
+val bintrayUser = (project.findProperty("bintray.user") ?: "").toString()
+val bintrayKey = (project.findProperty("bintray.apikey")?: "").toString()
 
 publishing {
-    publications.all {
-        (this as MavenPublication).pom {
-            name.set("kotlin-grass")
-            description.set("Csv File to Kotlin Data Class Parser")
-            url.set("https://github.com/blackmo18/kotlin-grass")
-
-            organization {
-                name.set("io.github.blackmo18")
-                url.set("https://github.com/blackmo18")
-            }
-            licenses {
-                license {
-                    name.set("Apache License 2.0")
-                    url.set("https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE")
-                }
-            }
-            scm {
-                url.set("https://github.com/blackmo18/kotlin-grass")
-                connection.set("scm:git:git://github.com/blackmo18/kotlin-grass.git")
-                developerConnection.set("https://github.com/blackmo18/kotlin-grass")
-            }
-            developers {
-                developer {
-                    name.set("blackmo18")
-                }
-            }
-        }
-    }
     repositories {
-        maven {
+        maven(url = "https://api.bintray.com/maven/blackmo18/kotlin-libraries/kotlin-grass/;publish=1") {
+            name = "bintray"
             credentials {
-                val nexusUsername: String? by project
-                val nexusPassword: String? by project
-                username = nexusUsername
-                password = nexusPassword
+                username = bintrayUser
+                password = bintrayKey
             }
-
-            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
         }
     }
 }
-
-signing {
-    sign(publishing.publications)
-}
-
 
 val jvmTest by tasks.getting(Test::class) {
     useJUnitPlatform { }
@@ -161,18 +110,19 @@ tasks.jacocoTestReport {
             .filterNot {
                 val fileNamePath = it.absolutePath
                 val dir = fileNamePath.substring(0, fileNamePath.lastIndexOf(File.separator))
-                dir.contains("io/github/blackmo18/grass/data")
+                dir.contains("com/vhl/blackmo/grass/data")
             }
 
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
     additionalSourceDirs.setFrom(files(coverageSourceDirs))
 
+
     executionData
             .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
 
     reports {
         xml.isEnabled = true
-        html.isEnabled = true
+        html.isEnabled = false
     }
 }
