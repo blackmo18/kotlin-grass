@@ -1,7 +1,7 @@
 plugins {
     java
-    kotlin("multiplatform")
-    id("org.jetbrains.dokka")
+    id("org.jetbrains.kotlin.multiplatform")
+    id("org.jetbrains.dokka") version "0.9.18"
     `maven-publish`
     signing
     jacoco
@@ -12,7 +12,7 @@ val csvVersion = "0.15.2"
 val coroutineVersion = "1.4.3"
 
 group = "io.github.blackmo18"
-version = "0.7.1"
+version = "0.8.0"
 
 buildscript {
     repositories {
@@ -50,7 +50,6 @@ kotlin {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
-                noReflect = false
             }
         }
         mavenPublication {
@@ -82,7 +81,6 @@ kotlin {
             dependencies {
                 implementation(project(":kotlin-grass-parser"))
                 implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
                 implementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
                 implementation("com.github.doyaaaaaken:kotlin-csv-jvm:$csvVersion")
             }

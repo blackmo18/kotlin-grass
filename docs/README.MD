@@ -53,7 +53,8 @@
 //doyaaaaaken's kotlin-csv
 implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
 //kotlin-grass
-implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
+implementation("io.github.blackmo18:kotlin-grass-core-jvm:1.0.0")
+implementation("io.github.blackmo18:kotlin-grass-parser-jvm:0.8.0")
 ```
 
 #### Maven:
@@ -65,8 +66,13 @@ implementation("io.github.blackmo18:kotlin-grass-jvm:0.7.1")
 </dependency>
 <dependency>
     <groupId>io.github.blackmo18</groupId>
-    <artifactId>kotlin-grass-jvm</artifactId>
-    <version>0.7.1</version>
+    <artifactId>kotlin-grass-core-jvm</artifactId>
+    <version>1.0.0</version>
+</dependency>
+<dependency>
+    <groupId>io.github.blackmo18</groupId>
+    <artifactId>kotlin-grass-parser-jvm</artifactId>
+    <version>0.8.0</version>
 </dependency>
 ```
 
@@ -131,6 +137,10 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
 |---------------|---------------|---------------|
 |12:00|2020-12-31 12:00|2020-12-31|
 #### Date and Time Types
+#### Import the following
+```kotlin
+implementation("com.vhl.blackmo:kotlin-grass-core-jvm:1.0.0")
+```
 ```kotlin
     data class DateTimeTypes(
         val time: LocalTime,
@@ -145,6 +155,7 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
         dateFormat = "MM-dd-yyyy"
         timeFormat = "HH:mm:ss"
         dateTimeSeparator = "/"
+        customDataTypes = arrayListOf(Java8DateTime)
     }
 ```
 # Custom Mapping Support

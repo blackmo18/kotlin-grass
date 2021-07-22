@@ -1,3 +1,7 @@
+# 0.8.0
+Decouple Custom Data Types
+   - Java 8 date and time apis
+   - Added custom transformers
 # 0.7.1
 Remove unused lines in JVM Date Parser
 
