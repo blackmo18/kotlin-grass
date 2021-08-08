@@ -7,9 +7,9 @@ plugins {
     jacoco
 }
 
-val kotlinVersion = "1.4.32"
+val kotlinVersion = "1.5.21"
 val csvVersion = "0.15.2"
-val coroutineVersion = "1.4.3"
+val coroutineVersion = "1.5.1"
 
 group = "io.github.blackmo18"
 version = "1.0.0"

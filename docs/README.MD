@@ -1,9 +1,12 @@
 <img src="./logo.png" alt="Kotlin-Grass"/>
 <p>
-  <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-1.4.32-teal.svg?logo=kotlin" />
+  <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-1.5.21-teal.svg?logo=kotlin" />
   <a href="/>https://repo1.maven.org/maven2/io/github/blackmo18/kotlin-grass-jvm/0.7.1/">
-    <img alt="Latest: 0.7.1" src="https://img.shields.io/badge/Latest-0.7.1-blue.svg" target="_blank" />
-    </a>
+    <img alt="Parser: 0.8.0" src="https://img.shields.io/badge/Parser-0.8.0-blue.svg" target="_blank" />
+  </a>
+  <a href="/>https://repo1.maven.org/maven2/io/github/blackmo18/kotlin-grass-jvm/0.7.1/">
+    <img alt="Core: 0.8.0" src="https://img.shields.io/badge/Core-0.8.0-green.svg" target="_blank" />
+  </a>
   <a href="https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE">
     <img alt="License: Apache License 2.0" src="https://img.shields.io/badge/License-Apache License 2.0-orange.svg" target="_blank" />
   </a>
@@ -137,9 +140,9 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
 |---------------|---------------|---------------|
 |12:00|2020-12-31 12:00|2020-12-31|
 #### Date and Time Types
-#### Import the following
+#### Import the following extension library
 ```kotlin
-implementation("com.vhl.blackmo:kotlin-grass-core-jvm:1.0.0")
+implementation("com.vhl.blackmo:kotlin-grass-date-time-jvm:0.8.0")
 ```
 ```kotlin
     data class DateTimeTypes(
