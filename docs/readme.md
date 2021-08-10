@@ -21,12 +21,9 @@
   </a>
 </p>
 
->Csv File to Kotlin  Data Class Parser<br />
->Currently, it requires to have  `@ExperimentalStdlibApi` on the class/method  using  this Library.<br />
->Requires [kotlin-csv by doyaaaaaken](https://github.com/doyaaaaaken/kotlin-csv/) for reading csv file.<br />
-
-# Links
-* [Change Log](https://github.com/blackmo18/kotlin-grass/blob/master/docs/ChangeLog.MD) - updates and bug fixes
+> Csv File to Kotlin  Data Class Parser<br />
+> Currently, it requires to have  `@ExperimentalStdlibApi` on the class/method  using  this Library.<br />
+> Requires [kotlin-csv by doyaaaaaken](https://github.com/doyaaaaaken/kotlin-csv/) for reading csv file.<br />
 
 # Features
 
@@ -187,14 +184,18 @@ implementation("com.vhl.blackmo:kotlin-grass-date-time-jvm:0.8.0")
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />
-Feel free to check [issues page](https://github.com/blackmo18/kotlin-grass/issues).<br />
+Contributions, issues and feature requests are welcome!  
+Feel free to check [issues page](https://github.com/blackmo18/kotlin-grass/issues).
+
+Changelog: [changelog.md]
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
 ## 📝 License
 Copyright © 2020 [blackmo18](https://github.com/blackmo18). <br />
 This project is [Apache License 2.0](https://github.com/blackmo18/kotlin-grass/blob/master/LICENSE) licensed.
+
 ***
 This project inspired ❤️ by [kotlin-csv](https://github.com/doyaaaaaken/kotlin-csv)
