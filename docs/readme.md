@@ -187,7 +187,7 @@ implementation("com.vhl.blackmo:kotlin-grass-date-time-jvm:0.8.0")
 Contributions, issues and feature requests are welcome!  
 Feel free to check [issues page](https://github.com/blackmo18/kotlin-grass/issues).
 
-Changelog: [changelog.md]
+[Changelog](changelog.md)
 
 ## Show your support
 
