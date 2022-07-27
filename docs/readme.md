@@ -139,7 +139,7 @@ If a variable in your data class is a nullable, all you have to do is mark it wi
 #### Date and Time Types
 #### Import the following extension library
 ```kotlin
-implementation("com.vhl.blackmo:kotlin-grass-date-time-jvm:0.8.0")
+implementation("io.github.blackmo18:kotlin-grass-date-time-jvm:0.8.0")
 ```
 ```kotlin
     data class DateTimeTypes(
